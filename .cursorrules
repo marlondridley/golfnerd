@@ -1,0 +1,50 @@
+# Cursor Rules — Golf Physics Field Guide
+
+## Project Overview
+Next.js 14 App Router + TypeScript + Tailwind CSS + KaTeX + Recharts
+A magazine-quality physics reference for wedge ball-striking mechanics.
+
+## Architecture
+- All page content lives in `src/app/page.tsx`
+- Physics data (equations, tables) is in `src/lib/physics-data.ts`
+- Reusable components in `src/components/`
+
+## Design System
+- Paper background: `#f5f0e8` (cream)
+- Accent (crimson): `#8b1a1a`
+- Gold: `#b8860b`
+- Ink (text): `#1a1410`
+- Use CSS variables from `globals.css` or Tailwind tokens from `tailwind.config.ts`
+
+## Equations
+- All display math uses `<BlockMath>` from `react-katex`
+- All inline math uses `<InlineMath>` from `react-katex`
+- Wrap in `<EquationBlock>` component for styled equation boxes
+- LaTeX strings use double backslash: `\\frac{1}{R}` not `\frac{1}{R}`
+
+## Charts
+- Use Recharts for all data visualizations
+- Charts must be `'use client'` components
+- Wrap with `dynamic(() => import(...), { ssr: false })` in page.tsx
+
+## Tables
+- Use the `<DataTable>` component — never raw HTML tables in page.tsx
+- Add data to `physics-data.ts`, consume in page.tsx
+- `tourKey` prop highlights the tour-standard row in crimson
+
+## Typography
+- Headings: `var(--font-playfair)` — Playfair Display
+- Body: `var(--font-source-serif)` — Source Serif 4
+- Code/numbers: `var(--font-jetbrains)` — JetBrains Mono
+
+## Adding Content
+1. New equation → add to `EQUATIONS` array in `physics-data.ts`
+2. New table data → add typed constant in `physics-data.ts`
+3. New chapter → add section in `page.tsx`, add to `CHAPTERS` in `physics-data.ts`
+4. New chart → create component in `components/`, import with `dynamic()` in page
+
+## Code Style
+- Functional components only
+- No class components
+- `'use client'` only when needed (charts, Sidebar)
+- Prefer named exports for components
