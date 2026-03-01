@@ -1,6 +1,11 @@
 # ⛳ Golf Physics — Technical Field Guide
 
+> **📖 [View the Full HTML Blog →](https://marlondridley.github.io/golfnerd/)**  
+> The complete physics reference is published as an HTML blog on GitHub Pages.
+
 A production-ready **Next.js 14 / TypeScript / Tailwind** app rendering the complete physics of wedge ball-striking, with LaTeX equations, interactive Recharts visualizations, and a sticky sidebar — ready to open in **Cursor** and run immediately.
+
+**The main content (`index.html`) is a self-contained HTML blog** featuring 11 chapters, 17 equations, and comprehensive physics explanations. This HTML file is automatically deployed to GitHub Pages and serves as the primary publication.
 
 ---
 
@@ -18,28 +23,29 @@ npm run dev
 
 ---
 
-## 🌐 GitHub Pages Hosting
+## 🌐 GitHub Pages Blog
 
-This repository is configured to host your HTML blog on GitHub Pages.
+**Your HTML blog is the main publication** and is automatically hosted on GitHub Pages.
 
-### Setup Steps:
+### Live Site:
+**👉 [https://marlondridley.github.io/golfnerd/](https://marlondridley.github.io/golfnerd/)**
 
-1. **Enable GitHub Pages** in your repository settings:
-   - Go to your repo → **Settings** → **Pages**
+The `index.html` file contains the complete 11-chapter physics reference with:
+- 17 mathematical equations (rendered with MathJax)
+- Data tables and performance matrices
+- Full physics explanations
+- Print-optimized styling
+
+### Setup (if not already enabled):
+
+1. **Enable GitHub Pages** in repository settings:
+   - Go to: `Settings` → `Pages`
    - Under "Source", select **GitHub Actions**
-   - Save the settings
+   - Save
 
-2. **Push your changes**:
-   ```bash
-   git add .
-   git commit -m "Setup GitHub Pages"
-   git push
-   ```
+2. **Automatic Deployment**: The workflow (`.github/workflows/deploy.yml`) automatically deploys `index.html` whenever you push to `main`.
 
-3. **Your site will be live at**:
-   `https://[your-username].github.io/[repo-name]/`
-
-The `index.html` file in the root directory will be automatically deployed whenever you push to the `main` branch via the GitHub Actions workflow (`.github/workflows/deploy.yml`).
+According to [GitHub Pages documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site), when using GitHub Actions, your `index.html` file will be served as the root page of your site.
 
 ---
 
