@@ -142,6 +142,27 @@
       margin-bottom: 1rem;
     }
 
+    .article-takeaway {
+      background: #f7faf5;
+      border: 1px solid #edf3e8;
+      border-radius: 16px;
+      padding: 0.65rem 0.75rem;
+      margin: 0 0 0.85rem;
+      color: #2d3e2a;
+      font-size: 0.85rem;
+    }
+
+    .article-highlights {
+      margin: 0 0 0.85rem;
+      padding-left: 1.15rem;
+      color: #2d3e2a;
+      font-size: 0.85rem;
+    }
+
+    .article-highlights li {
+      margin: 0.25rem 0;
+    }
+
     .article-meta {
       font-size: 0.8rem;
       color: #6f7e68;
@@ -214,7 +235,13 @@
       title: "How Close Should You Actually Hit It?",
       url: "proximity-wedge-expectations.html",
       tag: "📈 DataGolf 2025 · SG Analysis",
-      excerpt: "PGA Tour proximity data decoded — and translated to what it realistically means for a 70, 85, and 105 mph swing.",
+      excerpt: "Decoded PGA Tour proximity into practical targets for 70, 85, and 105 mph golfers (and what it means for scoring).",
+      takeaway: "Proximity becomes actionable when you translate it into putt distance and birdie expectations for your swing speed.",
+      highlights: [
+        "Target proximity benchmarks for 70/85/105 mph",
+        "How proximity maps to putt length and birdie conversion",
+        "Which setup change fixes proximity fastest"
+      ],
       meta: "📖 18 min read · original calculations · 22‑player analysis",
       date: "2025-03-25"
     },
@@ -222,15 +249,27 @@
       title: "Why Proximity Band Leaders Don't Win",
       url: "proximity-leaders.html",
       tag: "📊 Data Analysis · 2025 PGA Tour",
-      excerpt: "A category stat is not a performance stat. We analzyed the 2025 DataGolf dataset of 421 players and looked at a subset of proximity to the hole leaders ",
+      excerpt: "A category stat isn't a performance stat. Using 2025 DataGolf (421 players), we show why band leaders can miss the win column—and what predicts it better.",
+      takeaway: "The win column rewards complete scoring profiles, not just one proximity distance band.",
+      highlights: [
+        "Why leading a band can still mean losing",
+        "What predicts wins more reliably than proximity alone",
+        "APP vs putting quadrant logic"
+      ],
       meta: "📖 20 min read · strokes gained · full player profiles",
       date: "2025-03-10"
     },
     {
       title: "The Physics of the Wedge (Full Guide)",
       url: "golf-physics-v2.html",
-      tag: "📐 Extended Edition  ",
-      excerpt: "The Angle of Attack, Spin Loft, and the Mathematics of Precision Striking into a  technical field guide: aerodynamics, rough lie geometry, wedge distance matrix, and 23 equations.",
+      tag: "📐 Extended Edition",
+      excerpt: "Angle of attack, spin loft, and impact math—plus wedge distance matrix and rough/lie geometry—built into a full technical field guide with 23 worked equations.",
+      takeaway: "A full wedge physics model that turns strike mechanics into predictable outcomes.",
+      highlights: [
+        "Circular-arc swing geometry and impact mechanics",
+        "Spin-loft identity + friction/stop-phase model",
+        "Rough/lie adjustments and a wedge distance matrix"
+      ],
       meta: "📖 35 min read · 14 chapters · in‑flight aerodynamics",
       date: "2025-02-20"
     },
@@ -238,7 +277,13 @@
       title: "The Physics of the Wedge",
       url: "golf-wedge-physics.html",
       tag: "📐 Short Game Physics · Vol. I",
-      excerpt: " Complete model from first principles.",
+      excerpt: "A concise, first-principles wedge physics model: circular-arc swing geometry, impact mechanics, and what it takes to land the ball where it should.",
+      takeaway: "The shortest path to better wedge striking: understand the geometry, then control the impact window.",
+      highlights: [
+        "The circular-arc model that approximates real swings",
+        "Impact mechanics: how loft becomes launch and spin",
+        "Practical constraints for repeatable landing/stop"
+      ],
       meta: "📖 12 min read · 10+ formulas · circular arc mechanics",
       date: "2025-01-15"
     }
@@ -261,7 +306,10 @@
     const filtered = articles.filter(article => {
       return article.title.toLowerCase().includes(lowerFilter) ||
              article.tag.toLowerCase().includes(lowerFilter) ||
-             article.excerpt.toLowerCase().includes(lowerFilter);
+             article.excerpt.toLowerCase().includes(lowerFilter) ||
+             (article.takeaway && article.takeaway.toLowerCase().includes(lowerFilter)) ||
+             (article.meta && article.meta.toLowerCase().includes(lowerFilter)) ||
+             (article.highlights || []).some(h => h.toLowerCase().includes(lowerFilter));
     });
 
     if (filtered.length === 0) {
@@ -278,6 +326,12 @@
             <h2 class="article-title"><a href="${article.url}">${article.title}</a></h2>
             <div class="article-date">📅 ${formatDate(article.date)}</div>
             <div class="article-excerpt">${article.excerpt}</div>
+            ${article.takeaway ? `<div class="article-takeaway">${article.takeaway}</div>` : ``}
+            ${(article.highlights || []).length ? `
+              <ul class="article-highlights">
+                ${(article.highlights || []).map(h => `<li>${h}</li>`).join("")}
+              </ul>
+            ` : ``}
             <div class="article-meta">${article.meta}</div>
           </div>
         </div>
