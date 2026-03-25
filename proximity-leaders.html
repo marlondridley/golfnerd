@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Proximity Leaders Don't Win · DataGolf 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #0a0d12;
+  --bg2:    #111520;
+  --bg3:    #181d28;
+  --line:   rgba(255,255,255,0.07);
+  --text:   #e0e8f0;
+  --muted:  #5a6a80;
+  --dim:    #2a3445;
+  --gold:   #f5c842;
+  --teal:   #22d3c8;
+  --red:    #ff4d5e;
+  --green:  #36d68c;
+  --blue:   #4a9eff;
+  --orange: #ff8c42;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.page { max-width: 1080px; margin: 0 auto; padding: 0 20px 80px; }
+
+/* ── HERO ── */
+.hero {
+  padding: 64px 0 52px;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: 'SG:TOTAL';
+  position: absolute;
+  right: -20px; top: 20px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 200px;
+  color: rgba(255,255,255,0.018);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); display: block; margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 9vw, 96px);
+  line-height: 0.92;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.hero h1 em { color: var(--red); font-style: normal; }
+.hero-sub {
+  font-size: 17px; color: var(--muted);
+  max-width: 520px; line-height: 1.6; margin-bottom: 28px;
+}
+.hero-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.hero-tag {
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 4px 10px;
+}
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: var(--line); margin: 52px 0; }
+
+/* ── SECTION LABEL ── */
+.slabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); display: block; margin-bottom: 12px;
+}
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 40px; letter-spacing: 1px;
+  color: #fff; margin-bottom: 24px; line-height: 1;
+}
+
+/* ── THE BIG FINDING ── */
+.big-finding {
+  background: var(--bg3);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--gold);
+  padding: 32px;
+  margin-bottom: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+@media(max-width:680px){ .big-finding { grid-template-columns: 1fr; } }
+.bf-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 88px; line-height: 1;
+  display: block; margin-bottom: 4px;
+}
+.bf-unit { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 10px; }
+.bf-body { font-size: 14.5px; color: var(--muted); line-height: 1.6; }
+.bf-body strong { color: var(--text); }
+
+/* ── QUADRANT ── */
+.quad-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  margin: 28px 0;
+  position: relative;
+}
+.quad-wrap::before {
+  content: 'SG:APP'; position: absolute; bottom: -22px; left: 50%; transform: translateX(-50%);
+  font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+}
+.quad-wrap::after {
+  content: 'SG:PUTTING'; position: absolute; left: -70px; top: 50%; transform: translateY(-50%) rotate(-90deg);
+  font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+}
+.quad { padding: 22px 18px; position: relative; }
+.q-winner  { background: rgba(54,214,140,0.08); border: 1px solid rgba(54,214,140,0.2); }
+.q-mori    { background: rgba(74,158,255,0.07); border: 1px solid rgba(74,158,255,0.15); }
+.q-cam     { background: rgba(255,140,66,0.07); border: 1px solid rgba(255,140,66,0.15); }
+.q-below   { background: rgba(255,77,94,0.06);  border: 1px solid rgba(255,77,94,0.12); }
+.q-badge {
+  font-family: 'JetBrains Mono', monospace; font-size: 8px;
+  letter-spacing: 2px; text-transform: uppercase;
+  display: inline-block; padding: 2px 7px; margin-bottom: 8px;
+}
+.q-winner .q-badge  { background: rgba(54,214,140,0.15); color: var(--green); }
+.q-mori   .q-badge  { background: rgba(74,158,255,0.15); color: var(--blue); }
+.q-cam    .q-badge  { background: rgba(255,140,66,0.15);  color: var(--orange); }
+.q-below  .q-badge  { background: rgba(255,77,94,0.12);   color: var(--red); }
+.q-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: #fff; margin-bottom: 8px; line-height: 1; }
+.q-rate {
+  font-family: 'Bebas Neue', sans-serif; font-size: 44px; line-height: 1;
+  display: block; margin-bottom: 2px;
+}
+.q-winner .q-rate  { color: var(--green); }
+.q-mori   .q-rate  { color: var(--blue); }
+.q-cam    .q-rate  { color: var(--orange); }
+.q-below  .q-rate  { color: var(--red); }
+.q-sub { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px; }
+.q-players { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.q-axis-x { position: absolute; bottom: 6px; right: 10px; font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.2); }
+.quad-axis-label { text-align: center; margin-top: 28px; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+
+/* ── PLAYER GRID ── */
+.player-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 28px 0;
+}
+@media(max-width:780px){ .player-grid { grid-template-columns: repeat(2,1fr); } }
+@media(max-width:500px){ .player-grid { grid-template-columns: 1fr; } }
+
+.pcard {
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  padding: 16px 14px;
+  position: relative;
+  overflow: hidden;
+}
+.pcard::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.pc-win::before  { background: var(--green); }
+.pc-mori::before { background: var(--red); }
+.pc-prox::before { background: var(--muted); }
+
+.pcard-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; letter-spacing: 0.5px;
+  color: #fff; margin-bottom: 2px; line-height: 1;
+}
+.pcard-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--muted); display: block; margin-bottom: 12px;
+}
+
+.sg-bars { display: flex; flex-direction: column; gap: 5px; }
+.sg-bar-row { display: flex; align-items: center; gap: 7px; }
+.sg-bar-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8.5px; color: var(--muted); width: 30px; flex-shrink: 0;
+  text-transform: uppercase;
+}
+.sg-bar-track {
+  flex: 1; height: 6px; background: var(--dim); position: relative; border-radius: 1px;
+}
+.sg-bar-fill {
+  position: absolute; top: 0; height: 100%; border-radius: 1px;
+  transition: width 0.3s;
+}
+.sg-bar-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; width: 44px; text-align: right; flex-shrink: 0;
+}
+.bar-pos { background: var(--green); left: 50%; }
+.bar-neg { background: var(--red); right: 50%; }
+.val-pos { color: var(--green); }
+.val-neg { color: var(--red); }
+
+.pcard-wins {
+  margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.wins-num {
+  font-family: 'Bebas Neue', sans-serif; font-size: 28px; line-height: 1;
+}
+.wins-label { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+.xw-val { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+
+/* ── COMPARISON TABLE ── */
+.comp-table {
+  width: 100%; border-collapse: collapse;
+  margin: 24px 0; font-size: 12px;
+}
+.comp-table th {
+  background: var(--bg3); border-bottom: 1px solid var(--line);
+  color: var(--muted); font-family: 'JetBrains Mono', monospace;
+  font-size: 8.5px; letter-spacing: 1px; text-transform: uppercase;
+  padding: 9px 10px; text-align: center;
+}
+.comp-table th:first-child { text-align: left; padding-left: 14px; }
+.comp-table td {
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  padding: 8px 10px; text-align: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted);
+}
+.comp-table td:first-child { text-align: left; padding-left: 14px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; }
+.comp-table tr.winner-row td { background: rgba(54,214,140,0.04); }
+.comp-table tr.prox-row  td { background: rgba(255,77,94,0.04); }
+.comp-table tr.mori-row  td { background: rgba(74,158,255,0.05); }
+.comp-table tr.prox-row td:first-child { color: var(--muted); font-style: italic; }
+.pos  { color: var(--green); font-weight: 600; }
+.neg  { color: var(--red); font-weight: 600; }
+.neu  { color: var(--orange); }
+.wins-big { font-family: 'Bebas Neue', sans-serif; font-size: 20px; }
+
+/* ── KEY FINDING CARDS ── */
+.findings-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+  margin: 28px 0;
+}
+@media(max-width:620px){ .findings-grid { grid-template-columns: 1fr; } }
+
+.finding-card {
+  background: var(--bg2); border: 1px solid var(--line);
+  padding: 20px 18px;
+  position: relative;
+}
+.finding-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.fc-gold::before   { background: var(--gold); }
+.fc-red::before    { background: var(--red); }
+.fc-green::before  { background: var(--green); }
+.fc-blue::before   { background: var(--blue); }
+.fc-orange::before { background: var(--orange); }
+
+.fc-eyebrow {
+  font-family: 'JetBrains Mono', monospace; font-size: 8.5px;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+  display: block; margin-bottom: 8px;
+}
+.fc-stat {
+  font-family: 'Bebas Neue', sans-serif; font-size: 52px; line-height: 1;
+  display: block; margin-bottom: 4px;
+}
+.fc-gold   .fc-stat { color: var(--gold); }
+.fc-red    .fc-stat { color: var(--red); }
+.fc-green  .fc-stat { color: var(--green); }
+.fc-blue   .fc-stat { color: var(--blue); }
+.fc-orange .fc-stat { color: var(--orange); }
+
+.fc-unit { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px; }
+.fc-body { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.fc-body strong { color: var(--text); }
+.fc-source { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.15); margin-top: 10px; display: block; border-top: 1px solid var(--line); padding-top: 8px; }
+
+/* ── BAR CHART VISUAL ── */
+.bar-chart { margin: 28px 0; }
+.bc-row {
+  display: grid; grid-template-columns: 160px 1fr 60px;
+  align-items: center; gap: 12px; margin-bottom: 10px;
+}
+.bc-label { font-size: 13px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bc-label span { font-size: 10px; color: var(--muted); display: block; font-family: 'JetBrains Mono', monospace; }
+.bc-bar-wrap { height: 28px; background: var(--dim); position: relative; display: flex; align-items: center; }
+.bc-bar-fill {
+  height: 100%; position: absolute; left: 0; top: 0;
+  display: flex; align-items: center;
+}
+.bc-win-dot {
+  position: absolute; right: -5px; top: 50%; transform: translateY(-50%);
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 2px solid var(--bg); font-size: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.bc-val { font-family: 'Bebas Neue', sans-serif; font-size: 20px; text-align: right; }
+
+/* ── SCATTER VISUAL ── */
+.scatter-container { margin: 28px 0; position: relative; }
+.scatter-title { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; display: block; }
+
+/* ── GROUP COMPARE CARDS ── */
+.group-compare {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0;
+}
+.gc-card {
+  background: var(--bg2); border: 1px solid var(--line);
+  padding: 22px 20px;
+}
+.gc-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 8.5px;
+  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; display: block;
+}
+.gc-winners .gc-label { color: var(--green); }
+.gc-prox    .gc-label { color: var(--red); }
+.gc-metric { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 0; border-bottom: 1px solid var(--line); }
+.gc-metric:last-child { border-bottom: none; }
+.gc-key { font-size: 12px; color: var(--muted); }
+.gc-num { font-family: 'Bebas Neue', sans-serif; font-size: 26px; }
+.gc-winners .gc-num { color: var(--green); }
+.gc-prox    .gc-num { color: var(--red); }
+
+/* ── MORIKAWA SPECIAL ── */
+.mori-card {
+  background: var(--bg2); border: 1px solid rgba(74,158,255,0.2);
+  border-top: 3px solid var(--blue);
+  padding: 24px 22px; margin: 28px 0;
+  display: grid; grid-template-columns: 1fr 2fr; gap: 28px; align-items: start;
+}
+@media(max-width:600px){ .mori-card { grid-template-columns: 1fr; } }
+.mc-name { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--blue); line-height: 1; }
+.mc-sub { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 16px; }
+.mc-vs {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;
+}
+.mc-box { background: var(--bg3); padding: 14px 12px; text-align: center; }
+.mc-box-n { font-family: 'Bebas Neue', sans-serif; font-size: 40px; line-height: 1; display: block; }
+.mc-box-l { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+.mc-insight { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.mc-insight strong { color: var(--text); }
+
+/* ── 2026 UPDATE ── */
+.update-strip {
+  background: linear-gradient(135deg, rgba(34,211,200,0.08), rgba(34,211,200,0.03));
+  border: 1px solid rgba(34,211,200,0.2);
+  border-left: 3px solid var(--teal);
+  padding: 18px 20px; margin: 28px 0;
+  display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: center;
+}
+.update-arrow { font-family: 'Bebas Neue', sans-serif; font-size: 60px; color: var(--teal); line-height: 1; }
+.update-text { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.update-text strong { color: var(--teal); }
+
+/* ── FOOTNOTE ── */
+.footnote {
+  margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line);
+  font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: var(--muted); line-height: 1.8;
+}
+.footnote strong { color: rgba(255,255,255,0.3); }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div style="margin: 0 0 36px; padding: 12px 0; border-bottom: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase;">
+  <a href="index.html" style="color: var(--gold); text-decoration: none;">← Back to all articles</a>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <span class="hero-eyebrow">Data Analysis · DataGolf 2025 · 22 Players</span>
+  <h1>WHY PROXIMITY<br>LEADERS<br><em>DON'T WIN</em></h1>
+  <p class="hero-sub">Leading one distance band tells you almost nothing. Here's what the DataGolf numbers actually show.</p>
+  <div class="hero-tags">
+    <span class="hero-tag">dg_performance_2025.csv</span>
+    <span class="hero-tag">407 ShotLink Players</span>
+    <span class="hero-tag">5 SG Categories</span>
+    <span class="hero-tag">Original Calculations</span>
+  </div>
+</header>
+
+<!-- INTRO SECTION -->
+<div style="padding: 52px 0 0; border-bottom: 1px solid var(--line); margin-bottom: 52px;">
+
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; margin-bottom: 40px;">
+    <div>
+      <span class="slabel">The Setup</span>
+      <div class="section-title" style="font-size:34px; margin-bottom: 20px;">IF PROXIMITY MATTERS,<br>WHY DON'T THE<br>PROXIMITY LEADERS WIN?</div>
+      <p style="color:var(--muted); font-size:15px; line-height:1.7; margin-bottom:14px;">In the 2025 PGA Tour season, <strong style="color:var(--text);">Isaiah Salinda</strong> led proximity from 50–75 yards. <strong style="color:var(--text);">Takumi Kanaya</strong> led from 75–100 yards rough. <strong style="color:var(--text);">Pontus Nyholm</strong> led from 100–125 yards. <strong style="color:var(--text);">Carson Young</strong> led the comprehensive 50–125 yard band. <strong style="color:var(--text);">Beau Hossler</strong> led from 125–150 yards. <strong style="color:var(--text);">Austin Eckroat</strong> led 150–175 yards.</p>
+      <p style="color:var(--muted); font-size:15px; line-height:1.7; margin-bottom:14px;">Between them: <strong style="color:var(--red);">two victories.</strong></p>
+      <p style="color:var(--muted); font-size:15px; line-height:1.7;">Meanwhile the 2025 World Golf Rankings read: Scheffler, McIlroy, Fleetwood, Schauffele, Henley, MacIntyre. <strong style="color:var(--text);">None of them led a single proximity distance band.</strong> Scheffler won five times. McIlroy won three including the Masters. Fleetwood won the Tour Championship.</p>
+    </div>
+    <div style="background:var(--bg3); border: 1px solid var(--line); border-left: 3px solid var(--gold); padding: 28px 24px;">
+      <span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); display:block; margin-bottom:16px;">The Central Argument</span>
+      <p style="font-size:16px; color:var(--text); line-height:1.7; font-style:italic; margin-bottom:16px;">"This is not a paradox. It is exactly what the data predicts — once you understand what proximity band leadership actually measures."</p>
+      <p style="font-size:13.5px; color:var(--muted); line-height:1.65;">A category stat is not a performance stat. They are fundamentally different things — and confusing them is where most golf analysis goes wrong. The 2025 DataGolf dataset of 421 players and 5 SG categories makes this distinction impossible to ignore.</p>
+    </div>
+  </div>
+
+  <!-- 5 headline stats -->
+  <div style="display:grid; grid-template-columns: repeat(5,1fr); gap:10px; margin-bottom: 0;">
+    <div style="background:var(--bg2); border:1px solid var(--line); border-top:2px solid var(--red); padding:16px 14px; text-align:center;">
+      <span style="font-family:'Bebas Neue',sans-serif; font-size:36px; color:var(--red); line-height:1; display:block; margin-bottom:4px;">68.14</span>
+      <span style="font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:1px; text-transform:uppercase; color:var(--muted);">Scheffler Scoring Avg</span>
+      <span style="display:block; font-size:10.5px; color:rgba(255,255,255,0.2); margin-top:5px;">Tiger-era territory</span>
+    </div>
+    <div style="background:var(--bg2); border:1px solid var(--line); border-top:2px solid var(--green); padding:16px 14px; text-align:center;">
+      <span style="font-family:'Bebas Neue',sans-serif; font-size:36px; color:var(--green); line-height:1; display:block; margin-bottom:4px;">5</span>
+      <span style="font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:1px; text-transform:uppercase; color:var(--muted);">Scheffler 2025 Wins</span>
+      <span style="display:block; font-size:10.5px; color:rgba(255,255,255,0.2); margin-top:5px;">No proximity band led</span>
+    </div>
+    <div style="background:var(--bg2); border:1px solid var(--line); border-top:2px solid var(--green); padding:16px 14px; text-align:center;">
+      <span style="font-family:'Bebas Neue',sans-serif; font-size:36px; color:var(--green); line-height:1; display:block; margin-bottom:4px;">3</span>
+      <span style="font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:1px; text-transform:uppercase; color:var(--muted);">McIlroy 2025 Wins</span>
+      <span style="display:block; font-size:10.5px; color:rgba(255,255,255,0.2); margin-top:5px;">Masters + Players</span>
+    </div>
+    <div style="background:var(--bg2); border:1px solid var(--line); border-top:2px solid var(--red); padding:16px 14px; text-align:center;">
+      <span style="font-family:'Bebas Neue',sans-serif; font-size:36px; color:var(--red); line-height:1; display:block; margin-bottom:4px;">0</span>
+      <span style="font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:1px; text-transform:uppercase; color:var(--muted);">Morikawa 2025 Wins</span>
+      <span style="display:block; font-size:10.5px; color:rgba(255,255,255,0.2); margin-top:5px;">Despite APP rank: 3rd</span>
+    </div>
+    <div style="background:var(--bg2); border:1px solid var(--line); border-top:2px solid var(--gold); padding:16px 14px; text-align:center;">
+      <span style="font-family:'Bebas Neue',sans-serif; font-size:36px; color:var(--gold); line-height:1; display:block; margin-bottom:4px;">+138</span>
+      <span style="font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:1px; text-transform:uppercase; color:var(--muted);">Cam Young Putt Rank Jump</span>
+      <span style="display:block; font-size:10.5px; color:rgba(255,255,255,0.2); margin-top:5px;">The stat that unlocked his win</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- SECTION 1: THE ONE NUMBER -->
+<div style="padding: 0;">
+  <span class="slabel">The Core Finding</span>
+  <div class="section-title">ONE NUMBER RULES THEM ALL</div>
+
+  <!-- PLAIN LANGUAGE EXPLAINER -->
+  <div style="background:var(--bg3); border:1px solid var(--line); padding:28px 32px; margin-bottom:20px;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:start;">
+      <div>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:10px;">The Question We Asked</span>
+        <p style="font-size:15px; color:var(--text); line-height:1.7; margin-bottom:12px;">We ran a simple test across 407 players in the DataGolf database: <strong>which single skill most reliably predicts whether a player wins?</strong></p>
+        <p style="font-size:15px; color:var(--muted); line-height:1.7;">We tested all five skills the PGA Tour tracks — approach play, putting, driving, short game, and all five combined. The answer is clear: <strong style="color:var(--gold);">no single skill predicts winning nearly as well as all five together.</strong></p>
+      </div>
+      <div style="background:rgba(245,200,66,0.06); border:1px solid rgba(245,200,66,0.15); border-left:3px solid var(--gold); padding:20px 18px;">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); display:block; margin-bottom:10px;">Framework: The Five-Tool Concept</span>
+        <p style="font-size:13.5px; color:var(--muted); line-height:1.65; margin-bottom:10px;">In baseball, a "five-tool player" excels at hitting for average, power, speed, fielding, and arm strength. Golf Digest applied the same concept to golf using PGA Tour strokes-gained data — a player earns a "tool" in each category where they gain 0.25+ strokes per round above average.</p>
+        <p style="font-size:13.5px; color:var(--muted); line-height:1.65; margin-bottom:10px;"><strong style="color:var(--text);">In 2025, only one player on tour qualified as a five-tool player: Scottie Scheffler.</strong> He won five times. We applied the same framework to the DataGolf performance CSV — same five categories, our own calculations directly from the data.</p>
+        <p style="font-size:11.5px; color:rgba(255,255,255,0.2); font-family:'JetBrains Mono',monospace;">Concept: Golf Digest Five-Tool Framework · Data: dg_performance_2025.csv · Calculations: original</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- VISUAL STRENGTH BARS — no jargon -->
+  <div style="background:var(--bg2); border:1px solid var(--line); padding:24px 28px;">
+    <span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:20px;">How Strongly Each Skill Predicts Winning · 407 Players · 2025 Season</span>
+
+    <!-- All Five Combined -->
+    <div style="margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid var(--line);">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
+        <div>
+          <span style="font-size:14px; color:var(--gold); font-weight:600;">All Five Skills Combined</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); margin-left:10px;">SG: Total · The "Five-Tool" Score</span>
+        </div>
+        <span style="font-family:'Bebas Neue',sans-serif; font-size:22px; color:var(--gold);">STRONGEST</span>
+      </div>
+      <div style="height:14px; background:var(--dim); border-radius:2px; position:relative;">
+        <div style="position:absolute; left:0; top:0; height:100%; width:100%; background:linear-gradient(90deg,var(--gold),#d4a843); border-radius:2px;"></div>
+      </div>
+      <p style="font-size:13px; color:var(--muted); margin-top:8px; line-height:1.6;">The sum of all five skills is by far the best predictor of wins — <strong style="color:var(--text);">83% stronger</strong> than approach play alone. This mirrors the Five-Tool Player concept from baseball: a player who does everything above average beats a specialist every time. In 2025, Scheffler was the only true five-tool player on tour. He won five times. The next closest players — McIlroy, Fleetwood — were four-tool players. They combined for six more wins. No proximity band leader broke three tools.</p>
+    </div>
+
+    <!-- Ball Striking -->
+    <div style="margin-bottom:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
+        <div>
+          <span style="font-size:14px; color:var(--text);">Ball Striking (Tee + Approach)</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); margin-left:10px;">SG: Tee-to-Green</span>
+        </div>
+        <span style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--muted);">STRONG</span>
+      </div>
+      <div style="height:10px; background:var(--dim); border-radius:2px; position:relative;">
+        <div style="position:absolute; left:0; top:0; height:100%; width:83%; background:var(--teal); opacity:0.7; border-radius:2px;"></div>
+      </div>
+      <p style="font-size:11.5px; color:var(--muted); margin-top:6px;">How well you hit the ball from tee to green — before putting. Strong predictor but not the full picture.</p>
+    </div>
+
+    <!-- Approach only -->
+    <div style="margin-bottom:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
+        <div>
+          <span style="font-size:14px; color:var(--text);">Approach Play Alone</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); margin-left:10px;">SG: Approach</span>
+        </div>
+        <span style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--muted);">MODERATE</span>
+      </div>
+      <div style="height:10px; background:var(--dim); border-radius:2px; position:relative;">
+        <div style="position:absolute; left:0; top:0; height:100%; width:71%; background:var(--blue); opacity:0.6; border-radius:2px;"></div>
+      </div>
+      <p style="font-size:11.5px; color:var(--muted); margin-top:6px;">Hitting it close matters — but Morikawa ranked 3rd in approach play and won <em>zero</em> times. Alone, it's not enough.</p>
+    </div>
+
+    <!-- Driving -->
+    <div style="margin-bottom:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
+        <div>
+          <span style="font-size:14px; color:var(--text);">Driving</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); margin-left:10px;">SG: Off the Tee</span>
+        </div>
+        <span style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--muted);">MODERATE</span>
+      </div>
+      <div style="height:10px; background:var(--dim); border-radius:2px; position:relative;">
+        <div style="position:absolute; left:0; top:0; height:100%; width:60%; background:var(--blue); opacity:0.5; border-radius:2px;"></div>
+      </div>
+      <p style="font-size:11.5px; color:var(--muted); margin-top:6px;">Distance and accuracy off the tee creates easier approach shots — creates volume of opportunity.</p>
+    </div>
+
+    <!-- Putting -->
+    <div style="margin-bottom:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
+        <div>
+          <span style="font-size:14px; color:var(--text);">Putting Alone</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); margin-left:10px;">SG: Putting</span>
+        </div>
+        <span style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--muted);">MODERATE</span>
+      </div>
+      <div style="height:10px; background:var(--dim); border-radius:2px; position:relative;">
+        <div style="position:absolute; left:0; top:0; height:100%; width:51%; background:var(--orange); opacity:0.6; border-radius:2px;"></div>
+      </div>
+      <p style="font-size:11.5px; color:var(--muted); margin-top:6px;">Similar predictive strength to approach. Cameron Young won in 2025 with <em>negative</em> approach but elite putting — it can compensate.</p>
+    </div>
+
+    <!-- Short game -->
+    <div>
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
+        <div>
+          <span style="font-size:14px; color:var(--text);">Short Game (Chipping/Pitching)</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); margin-left:10px;">SG: Around the Green</span>
+        </div>
+        <span style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--muted);">WEAKEST</span>
+      </div>
+      <div style="height:10px; background:var(--dim); border-radius:2px; position:relative;">
+        <div style="position:absolute; left:0; top:0; height:100%; width:35%; background:var(--muted); opacity:0.4; border-radius:2px;"></div>
+      </div>
+      <p style="font-size:11.5px; color:var(--muted); margin-top:6px;">The weakest single predictor of winning. Matters at the margins but rarely the deciding factor in a full season.</p>
+    </div>
+
+    <div style="margin-top:18px; padding-top:14px; border-top:1px solid var(--line); font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(255,255,255,0.15);">
+      Bar length = predictive strength against expected wins · 407 ShotLink-covered players · dg_performance_2025.csv
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: THE QUADRANT -->
+<div class="divider"></div>
+<span class="slabel">The Two-Category Split</span>
+<div class="section-title">APP vs. PUTTING — THE QUADRANT</div>
+<p style="color:var(--muted);max-width:560px;margin-bottom:28px;">Split all 407 ShotLink players by whether SG:Approach and SG:Putting are positive or negative. Win rate nearly doubles in the top-right quadrant.</p>
+
+<div class="quad-wrap">
+  <div class="quad q-mori">
+    <span class="q-badge">APP+ · PUTT−</span>
+    <div class="q-title">Morikawa Zone</div>
+    <span class="q-rate">0.31</span>
+    <span class="q-sub">avg wins/player · n=80</span>
+    <div class="q-players">Our group: <strong>Morikawa</strong> (0 wins), Rai (1), Schauffele (1)</div>
+  </div>
+  <div class="quad q-winner">
+    <span class="q-badge">APP+ · PUTT+ ✓</span>
+    <div class="q-title">Winner's Zone</div>
+    <span class="q-rate">0.69</span>
+    <span class="q-sub">avg wins/player · n=88 · 43% won</span>
+    <div class="q-players">Our group: Scheffler, McIlroy, Fleetwood, Henley, Spaun, Griffin, Fitzpatrick, Rose, English, MacIntyre — all 10 won</div>
+  </div>
+  <div class="quad q-below">
+    <span class="q-badge">APP− · PUTT−</span>
+    <div class="q-title">Below Average</div>
+    <span class="q-rate">0.20</span>
+    <span class="q-sub">avg wins/player · n=137</span>
+    <div class="q-players">Our group: <strong>Salinda</strong> (0 wins), <strong>Carson Young</strong> (0 wins)</div>
+  </div>
+  <div class="quad q-cam">
+    <span class="q-badge">APP− · PUTT+</span>
+    <div class="q-title">Cameron Young Zone</div>
+    <span class="q-rate">0.30</span>
+    <span class="q-sub">avg wins/player · n=102</span>
+    <div class="q-players">Our group: <strong>Cam Young</strong> (1 win), Gotterup (1), <strong>Ryder</strong> (0), <strong>Hossler</strong> (0), Kanaya (1)</div>
+  </div>
+</div>
+<div class="quad-axis-label">← PUTT− &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PUTT+ →</div>
+
+<!-- SECTION 3: THE TWO GROUPS -->
+<div class="divider"></div>
+<span class="slabel">Group Comparison · Computed from CSV</span>
+<div class="section-title">WINNERS VS. PROXIMITY LEADERS</div>
+
+<div class="group-compare">
+  <div class="gc-card gc-winners">
+    <span class="gc-label">15 Ranked Winners</span>
+    <div class="gc-metric"><span class="gc-key">Avg Wins</span><span class="gc-num">1.67</span></div>
+    <div class="gc-metric"><span class="gc-key">Avg SG:Total</span><span class="gc-num">+1.53</span></div>
+    <div class="gc-metric"><span class="gc-key">Avg SG:APP</span><span class="gc-num">+0.58</span></div>
+    <div class="gc-metric"><span class="gc-key">Avg SG:Putting</span><span class="gc-num">+0.33</span></div>
+    <div class="gc-metric"><span class="gc-key">Both APP+ & PUTT+</span><span class="gc-num">10/15</span></div>
+  </div>
+  <div class="gc-card gc-prox">
+    <span class="gc-label">6 Proximity Band Leaders</span>
+    <div class="gc-metric"><span class="gc-key">Avg Wins</span><span class="gc-num">0.17</span></div>
+    <div class="gc-metric"><span class="gc-key">Avg SG:Total</span><span class="gc-num">−0.03</span></div>
+    <div class="gc-metric"><span class="gc-key">Avg SG:APP</span><span class="gc-num">−0.16</span></div>
+    <div class="gc-metric"><span class="gc-key">Avg SG:Putting</span><span class="gc-num">+0.08</span></div>
+    <div class="gc-metric"><span class="gc-key">Both APP+ & PUTT+</span><span class="gc-num">1/6</span></div>
+  </div>
+</div>
+
+<div class="findings-grid">
+  <div class="finding-card fc-red">
+    <span class="fc-eyebrow">Most Surprising Finding</span>
+    <span class="fc-stat">−0.16</span>
+    <span class="fc-unit">Proximity leaders avg SG:APP</span>
+    <p class="fc-body">The group that <strong>leads proximity statistics</strong> has, on average, <strong>negative approach play</strong> by DataGolf's measure. Leading a band ≠ elite approach play.</p>
+    <span class="fc-source">Computed: mean(app_true) across Ryder, Eckroat, Salinda, C.Young, Hossler, Kanaya</span>
+  </div>
+  <div class="finding-card fc-green">
+    <span class="fc-eyebrow">The Winner Profile</span>
+    <span class="fc-stat">10/15</span>
+    <span class="fc-unit">Winners positive in both APP & Putting</span>
+    <p class="fc-body">Two-thirds of the ranked winners were <strong>positive in both categories simultaneously</strong>. Every player positive in both categories in our group won at least once.</p>
+    <span class="fc-source">Computed: players with app_true > 0 AND putt_true > 0, winner group</span>
+  </div>
+</div>
+
+<!-- SECTION 4: PLAYER CARDS -->
+<div class="divider"></div>
+<span class="slabel">Individual Profiles · All values from dg_performance_2025.csv</span>
+<div class="section-title">THE WINNER GROUP</div>
+
+<div class="player-grid">
+
+  <!-- Scheffler -->
+  <div class="pcard pc-win">
+    <div class="pcard-name">Scheffler</div>
+    <span class="pcard-sub">6 wins · xW: 4.82 · All categories positive</span>
+    <div class="sg-bars">
+      <div class="sg-bar-row"><span class="sg-bar-label">APP</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:72%;"></div></div><span class="sg-bar-val val-pos">+1.446</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">PUTT</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:32%;"></div></div><span class="sg-bar-val val-pos">+0.647</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">OTT</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:41%;"></div></div><span class="sg-bar-val val-pos">+0.819</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">ARG</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:18%;"></div></div><span class="sg-bar-val val-pos">+0.368</span></div>
+    </div>
+    <div class="pcard-wins">
+      <div><span class="wins-num" style="color:var(--green);">6</span><span class="wins-label"> wins</span></div>
+      <span class="xw-val">SG:Tot +3.279 · #1</span>
+    </div>
+  </div>
+
+  <!-- McIlroy -->
+  <div class="pcard pc-win">
+    <div class="pcard-name">McIlroy</div>
+    <span class="pcard-sub">4 wins · xW: 2.80 · Top 10 putting</span>
+    <div class="sg-bars">
+      <div class="sg-bar-row"><span class="sg-bar-label">APP</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:22%;"></div></div><span class="sg-bar-val val-pos">+0.433</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">PUTT</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:33%;"></div></div><span class="sg-bar-val val-pos">+0.654</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">OTT</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:45%;"></div></div><span class="sg-bar-val val-pos">+0.893</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">ARG</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:11%;"></div></div><span class="sg-bar-val val-pos">+0.213</span></div>
+    </div>
+    <div class="pcard-wins">
+      <div><span class="wins-num" style="color:var(--green);">4</span><span class="wins-label"> wins</span></div>
+      <span class="xw-val">SG:Tot +2.193 · #2</span>
+    </div>
+  </div>
+
+  <!-- Fleetwood -->
+  <div class="pcard pc-win">
+    <div class="pcard-name">Fleetwood</div>
+    <span class="pcard-sub">2 wins · xW: 2.41 · Elite T2G</span>
+    <div class="sg-bars">
+      <div class="sg-bar-row"><span class="sg-bar-label">APP</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:42%;"></div></div><span class="sg-bar-val val-pos">+0.846</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">PUTT</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:25%;"></div></div><span class="sg-bar-val val-pos">+0.504</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">OTT</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:20%;"></div></div><span class="sg-bar-val val-pos">+0.410</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">ARG</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:17%;"></div></div><span class="sg-bar-val val-pos">+0.338</span></div>
+    </div>
+    <div class="pcard-wins">
+      <div><span class="wins-num" style="color:var(--green);">2</span><span class="wins-label"> wins</span></div>
+      <span class="xw-val">SG:Tot +2.070 · #3</span>
+    </div>
+  </div>
+
+  <!-- Cam Young -->
+  <div class="pcard pc-win">
+    <div class="pcard-name">C. Young</div>
+    <span class="pcard-sub">1 win · xW: 1.08 · APP negative, PUTT elite</span>
+    <div class="sg-bars">
+      <div class="sg-bar-row"><span class="sg-bar-label">APP</span><div class="sg-bar-track"><div class="sg-bar-fill bar-neg" style="width:2%;"></div></div><span class="sg-bar-val val-neg">−0.036</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">PUTT</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:31%;"></div></div><span class="sg-bar-val val-pos">+0.628</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">OTT</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:22%;"></div></div><span class="sg-bar-val val-pos">+0.433</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">ARG</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:4%;"></div></div><span class="sg-bar-val val-pos">+0.080</span></div>
+    </div>
+    <div class="pcard-wins">
+      <div><span class="wins-num" style="color:var(--green);">1</span><span class="wins-label"> win</span></div>
+      <span class="xw-val">Rank: PUTT 13th · APP 180th</span>
+    </div>
+  </div>
+
+  <!-- Henley -->
+  <div class="pcard pc-win">
+    <div class="pcard-name">Henley</div>
+    <span class="pcard-sub">1 win · xW: 1.45 · ARG 6th on tour</span>
+    <div class="sg-bars">
+      <div class="sg-bar-row"><span class="sg-bar-label">APP</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:40%;"></div></div><span class="sg-bar-val val-pos">+0.797</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">PUTT</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:18%;"></div></div><span class="sg-bar-val val-pos">+0.353</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">OTT</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:11%;"></div></div><span class="sg-bar-val val-pos">+0.214</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">ARG</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:25%;"></div></div><span class="sg-bar-val val-pos">+0.502</span></div>
+    </div>
+    <div class="pcard-wins">
+      <div><span class="wins-num" style="color:var(--green);">1</span><span class="wins-label"> win</span></div>
+      <span class="xw-val">SG:Tot +1.866 · #6</span>
+    </div>
+  </div>
+
+  <!-- Griffin -->
+  <div class="pcard pc-win">
+    <div class="pcard-name">Griffin</div>
+    <span class="pcard-sub">3 wins · xW: 1.84 · All categories positive</span>
+    <div class="sg-bars">
+      <div class="sg-bar-row"><span class="sg-bar-label">APP</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:28%;"></div></div><span class="sg-bar-val val-pos">+0.550</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">PUTT</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:21%;"></div></div><span class="sg-bar-val val-pos">+0.417</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">OTT</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:11%;"></div></div><span class="sg-bar-val val-pos">+0.212</span></div>
+      <div class="sg-bar-row"><span class="sg-bar-label">ARG</span><div class="sg-bar-track"><div class="sg-bar-fill bar-pos" style="width:10%;"></div></div><span class="sg-bar-val val-pos">+0.210</span></div>
+    </div>
+    <div class="pcard-wins">
+      <div><span class="wins-num" style="color:var(--green);">3</span><span class="wins-label"> wins</span></div>
+      <span class="xw-val">SG:Tot +1.456 · #11</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- MORIKAWA DEEP DIVE -->
+<div class="divider"></div>
+<span class="slabel">The Case Study</span>
+<div class="section-title">THE MORIKAWA PARADOX</div>
+
+<div class="mori-card">
+  <div>
+    <div class="mc-name">MORI­KAWA</div>
+    <span class="mc-sub">Collin Morikawa · 2025</span>
+    <div class="mc-vs">
+      <div class="mc-box">
+        <span class="mc-box-n" style="color:var(--green);">3rd</span>
+        <span class="mc-box-l">APP rank of 407</span>
+      </div>
+      <div class="mc-box">
+        <span class="mc-box-n" style="color:var(--red);">249th</span>
+        <span class="mc-box-l">PUTT rank of 407</span>
+      </div>
+      <div class="mc-box">
+        <span class="mc-box-n" style="color:var(--gold);">1.60</span>
+        <span class="mc-box-l">Expected Wins</span>
+      </div>
+      <div class="mc-box">
+        <span class="mc-box-n" style="color:var(--red);">0</span>
+        <span class="mc-box-l">Actual Wins</span>
+      </div>
+    </div>
+  </div>
+  <div class="mc-insight">
+    <p>78 rounds × −0.153 SG:Putting per round = <strong>−11.9 strokes lost to putting alone</strong> across the 2025 season.</p>
+    <br>
+    <p>His approach play created <strong>1.60 expected wins</strong>. His putting converted <strong>zero of them</strong>. Being APP+ but PUTT− produces the same win rate (0.31/player) as being APP− but PUTT+ — the data says both gaps are equally damaging.</p>
+    <br>
+    <p style="color:rgba(255,255,255,0.25);font-family:'JetBrains Mono',monospace;font-size:9px;">app_true=+0.970 · putt_true=−0.153 · rounds_played=78 · wins=0 · x_wins=1.60</p>
+  </div>
+</div>
+
+<!-- 2026 CONFIRMATION -->
+<div class="update-strip">
+  <div class="update-arrow">→</div>
+  <div class="update-text">
+    <strong>2026 confirms the model.</strong> Morikawa's dg_performance_2026.csv entry: putt_true = +0.011, app_true = +1.328, wins = 1 in 5 events. The moment his putting crossed from negative to neutral — moving from the APP+/PUTT− quadrant to APP+/PUTT+ — the wins arrived exactly as the 2025 data predicted they would.
+    <div style="margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,0.2);">dg_performance_2026.csv · player_name='Morikawa, Collin'</div>
+  </div>
+</div>
+
+<!-- PROXIMITY LEADERS SECTION -->
+<div class="divider"></div>
+<span class="slabel">The Proximity Band Leaders · What The Data Reveals</span>
+<div class="section-title">FOUR REASONS THEY LEAD<br>BANDS BUT NOT LEADERBOARDS</div>
+
+<!-- Framing paragraph -->
+<p style="color:var(--muted); font-size:15px; line-height:1.7; max-width:680px; margin-bottom:32px;">The six proximity leaders in our group don't share a single explanation — they represent four completely different problems. Understanding <em>which</em> applies to each player is the most useful thing the data tells us.</p>
+
+<!-- REASON 1 -->
+<div style="background:var(--bg2); border:1px solid var(--line); border-left:4px solid var(--orange); padding:24px 24px 24px 28px; margin-bottom:12px;">
+  <div style="display:grid; grid-template-columns:200px 1fr; gap:28px; align-items:start;">
+    <div>
+      <span style="font-family:'JetBrains Mono',monospace; font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--orange); display:block; margin-bottom:8px;">Reason #1</span>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--text); line-height:1.1; margin-bottom:6px;">WRONG SKILL<br>GETS CREDITED</div>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;">Beau Hossler</div>
+    </div>
+    <div>
+      <p style="font-size:15px; color:var(--text); line-height:1.7; margin-bottom:14px;">Hossler leads proximity from 125–150 yards. When you see that, you assume he has an elite iron game. The data says otherwise — <strong style="color:var(--orange);">his overall approach play ranks 302nd out of 407 players.</strong></p>
+      <p style="font-size:14px; color:var(--muted); line-height:1.65; margin-bottom:16px;">What's actually elite? His <strong style="color:var(--text);">chipping and pitching around the green — ranked 10th on tour.</strong> He lays up to his comfortable yardage window, then uses that short-game brilliance to knock it close. The proximity stat captures the end result but misidentifies the cause. It looks like an iron play stat. It's actually a short game stat.</p>
+      <div style="display:flex; gap:16px;">
+        <div style="background:var(--bg3); padding:12px 16px; flex:1; text-align:center;">
+          <span style="font-family:'Bebas Neue',sans-serif; font-size:32px; color:var(--red); display:block; line-height:1;">302nd</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--muted); text-transform:uppercase;">Iron play rank</span>
+        </div>
+        <div style="display:flex; align-items:center; font-size:22px; color:var(--muted);">→</div>
+        <div style="background:var(--bg3); padding:12px 16px; flex:1; text-align:center;">
+          <span style="font-family:'Bebas Neue',sans-serif; font-size:32px; color:var(--green); display:block; line-height:1;">10th</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--muted); text-transform:uppercase;">Short game rank</span>
+        </div>
+      </div>
+      <div style="margin-top:10px; font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(255,255,255,0.15);">app_true=−0.450 · arg_true=+0.434 · dg_performance_2025.csv</div>
+    </div>
+  </div>
+</div>
+
+<!-- REASON 2 -->
+<div style="background:var(--bg2); border:1px solid var(--line); border-left:4px solid var(--red); padding:24px 24px 24px 28px; margin-bottom:12px;">
+  <div style="display:grid; grid-template-columns:200px 1fr; gap:28px; align-items:start;">
+    <div>
+      <span style="font-family:'JetBrains Mono',monospace; font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--red); display:block; margin-bottom:8px;">Reason #2</span>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--text); line-height:1.1; margin-bottom:6px;">ONE BRIGHT<br>SPOT, LEAKING<br>EVERYWHERE ELSE</div>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;">Isaiah Salinda</div>
+    </div>
+    <div>
+      <p style="font-size:15px; color:var(--text); line-height:1.7; margin-bottom:14px;">Salinda leads proximity from 50–75 yards. But zoom out and the full picture is stark: <strong style="color:var(--red);">he ranks below tour average in every single other category.</strong></p>
+      <p style="font-size:14px; color:var(--muted); line-height:1.65; margin-bottom:16px;">His putting ranks 364th out of 407. His overall score is negative — he costs himself strokes relative to the field. DataGolf's expected wins model says he should win <strong style="color:var(--text);">once every 20 seasons.</strong> One bright spot doesn't overcome four problem areas. Short wedge proximity is real, but it's doing nothing for his scorecard because everything surrounding it is broken.</p>
+      <!-- Mini skill profile -->
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:6px;">
+        <div style="background:rgba(54,214,140,0.1); border:1px solid rgba(54,214,140,0.2); padding:8px; text-align:center;">
+          <span style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--green); display:block;">27th</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:7.5px; color:var(--muted); text-transform:uppercase;">Driving</span>
+        </div>
+        <div style="background:rgba(255,77,94,0.08); border:1px solid rgba(255,77,94,0.15); padding:8px; text-align:center;">
+          <span style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--red); display:block;">239th</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:7.5px; color:var(--muted); text-transform:uppercase;">Approach</span>
+        </div>
+        <div style="background:rgba(255,77,94,0.08); border:1px solid rgba(255,77,94,0.15); padding:8px; text-align:center;">
+          <span style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--red); display:block;">247th</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:7.5px; color:var(--muted); text-transform:uppercase;">Short Game</span>
+        </div>
+        <div style="background:rgba(255,77,94,0.08); border:1px solid rgba(255,77,94,0.15); padding:8px; text-align:center;">
+          <span style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--red); display:block;">364th</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:7.5px; color:var(--muted); text-transform:uppercase;">Putting</span>
+        </div>
+      </div>
+      <div style="margin-top:10px; font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(255,255,255,0.15);">putt_true=−0.531 · total_true=−0.247 · x_wins=0.05 · dg_performance_2025.csv</div>
+    </div>
+  </div>
+</div>
+
+<!-- REASON 3 -->
+<div style="background:var(--bg2); border:1px solid var(--line); border-left:4px solid var(--blue); padding:24px 24px 24px 28px; margin-bottom:12px;">
+  <div style="display:grid; grid-template-columns:200px 1fr; gap:28px; align-items:start;">
+    <div>
+      <span style="font-family:'JetBrains Mono',monospace; font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--blue); display:block; margin-bottom:8px;">Reason #3</span>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--text); line-height:1.1; margin-bottom:6px;">WINS THE<br>BATTLE, LOSES<br>THE WAR</div>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;">Sam Ryder · Carson Young</div>
+    </div>
+    <div>
+      <p style="font-size:15px; color:var(--text); line-height:1.7; margin-bottom:14px;">Ryder's short wedge proximity is real — not a fluke. His putting ranks 23rd on tour. But <strong style="color:var(--blue);">he gets there the hard way.</strong></p>
+      <p style="font-size:14px; color:var(--muted); line-height:1.65; margin-bottom:14px;">His driving ranks 259th. When you can't hit fairways or generate distance, you arrive at your approach shots from rough, awkward distances, and under more pressure. Players who are elite off the tee hit the same short irons from perfect lies. Ryder is fighting uphill just to get to the shot he's good at — then executing it well but not building enough of a scoreboard advantage to matter.</p>
+      <p style="font-size:14px; color:var(--muted); line-height:1.65; margin-bottom:14px;">Carson Young is the same pattern from a different angle: comprehensive proximity leadership but negative approach, negative short game, negative putting season-long. One band doesn't tell the story of a full round.</p>
+      <div style="background:var(--bg3); padding:14px 18px; display:flex; align-items:center; gap:20px;">
+        <div style="text-align:center;">
+          <span style="font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--red); display:block; line-height:1;">259th</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--muted); text-transform:uppercase;">Driving (Ryder)</span>
+        </div>
+        <div style="font-size:13px; color:var(--muted); flex:1;">Every bad tee shot creates a harder approach shot, which creates a harder scoring opportunity — even when the wedge lands close.</div>
+        <div style="text-align:center;">
+          <span style="font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--green); display:block; line-height:1;">23rd</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--muted); text-transform:uppercase;">Putting (Ryder)</span>
+        </div>
+      </div>
+      <div style="margin-top:10px; font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(255,255,255,0.15);">Ryder: ott_true=−0.210 · t2g_true=−0.346 · Carson Young: total_true=−0.302 · dg_performance_2025.csv</div>
+    </div>
+  </div>
+</div>
+
+<!-- REASON 4 -->
+<div style="background:var(--bg2); border:1px solid var(--line); border-left:4px solid var(--gold); padding:24px 24px 24px 28px; margin-bottom:12px;">
+  <div style="display:grid; grid-template-columns:200px 1fr; gap:28px; align-items:start;">
+    <div>
+      <span style="font-family:'JetBrains Mono',monospace; font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); display:block; margin-bottom:8px;">Reason #4</span>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--text); line-height:1.1; margin-bottom:6px;">THE SAMPLE<br>SIZE TRAP</div>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;">Kanaya · Nyholm</div>
+    </div>
+    <div>
+      <p style="font-size:15px; color:var(--text); line-height:1.7; margin-bottom:14px;">Some proximity band leadership is simply a <strong style="color:var(--gold);">small sample size problem</strong> dressed up as a season-long achievement.</p>
+      <p style="font-size:14px; color:var(--muted); line-height:1.65; margin-bottom:14px;">Kanaya led proximity from 75–100 yards in the rough at 1 foot 8 inches. That sounds extraordinary — until you realize a player might hit <strong style="color:var(--text);">8 to 15 shots from that exact combination</strong> of distance and lie condition in an entire season. One excellent stretch — maybe one good week at a course that sets up that shot — can produce a season-leading average from a tiny handful of attempts.</p>
+      <p style="font-size:14px; color:var(--muted); line-height:1.65; margin-bottom:14px;">His full-season approach play ranks <strong style="color:var(--text);">336th out of 407.</strong> Nyholm can't even be measured — his rounds weren't tracked by the ShotLink system that powers strokes-gained data. He won once in 2025. Without the data, no conclusions can be drawn about why.</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <div style="background:var(--bg3); padding:14px; text-align:center;">
+          <span style="font-family:'Bebas Neue',sans-serif; font-size:24px; color:var(--gold); display:block; line-height:1;">8–15</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--muted); text-transform:uppercase;">Shots in that exact band per season</span>
+        </div>
+        <div style="background:var(--bg3); padding:14px; text-align:center;">
+          <span style="font-family:'Bebas Neue',sans-serif; font-size:24px; color:var(--red); display:block; line-height:1;">336th</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--muted); text-transform:uppercase;">Kanaya full-season approach rank</span>
+        </div>
+      </div>
+      <div style="margin-top:10px; font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(255,255,255,0.15);">Kanaya: app_true=−0.585 · x_wins=0.03 · Nyholm: all SG fields=−9999 · excluded · dg_performance_2025.csv</div>
+    </div>
+  </div>
+</div>
+
+<!-- SG TOTAL RANKINGS BAR CHART -->
+<div class="divider"></div>
+<span class="slabel">Full Rankings · Both Groups Side by Side</span>
+<div class="section-title">SG:TOTAL — ALL 22 PLAYERS</div>
+
+<div class="bar-chart">
+  <!-- Winners -->
+  <div class="bc-row"><div class="bc-label">Scheffler<span>6 wins</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:100%;background:linear-gradient(90deg,var(--green),#22c87a);"></div></div><div class="bc-val" style="color:var(--green);">+3.28</div></div>
+  <div class="bc-row"><div class="bc-label">McIlroy<span>4 wins</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:67%;background:var(--green);opacity:.8;"></div></div><div class="bc-val" style="color:var(--green);">+2.19</div></div>
+  <div class="bc-row"><div class="bc-label">Fleetwood<span>2 wins</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:63%;background:var(--green);opacity:.7;"></div></div><div class="bc-val" style="color:var(--green);">+2.07</div></div>
+  <div class="bc-row"><div class="bc-label">Henley<span>1 win</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:57%;background:var(--green);opacity:.6;"></div></div><div class="bc-val" style="color:var(--green);">+1.87</div></div>
+  <div class="bc-row"><div class="bc-label">Spaun<span>1 win</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:50%;background:var(--green);opacity:.6;"></div></div><div class="bc-val" style="color:var(--green);">+1.64</div></div>
+  <div class="bc-row"><div class="bc-label">Griffin<span>3 wins</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:44%;background:var(--green);opacity:.6;"></div></div><div class="bc-val" style="color:var(--green);">+1.46</div></div>
+  <div class="bc-row"><div class="bc-label">Schauffele<span>1 win</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:43%;background:var(--green);opacity:.55;"></div></div><div class="bc-val" style="color:var(--green);">+1.40</div></div>
+  <div class="bc-row"><div class="bc-label" style="color:var(--blue);">Morikawa ⚡<span style="color:var(--red);">0 wins · APP 3rd, PUTT 249th</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:41%;background:var(--blue);opacity:.7;"></div></div><div class="bc-val" style="color:var(--blue);">+1.36</div></div>
+  <div class="bc-row"><div class="bc-label">Fitzpatrick<span>1 win</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:41%;background:var(--green);opacity:.5;"></div></div><div class="bc-val" style="color:var(--green);">+1.34</div></div>
+  <div class="bc-row"><div class="bc-label">MacIntyre<span>1 win</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:40%;background:var(--green);opacity:.5;"></div></div><div class="bc-val" style="color:var(--green);">+1.31</div></div>
+  <div class="bc-row"><div class="bc-label">English<span>1 win</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:37%;background:var(--green);opacity:.5;"></div></div><div class="bc-val" style="color:var(--green);">+1.21</div></div>
+  <div class="bc-row"><div class="bc-label">Rai<span>1 win</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:31%;background:var(--green);opacity:.5;"></div></div><div class="bc-val" style="color:var(--green);">+1.03</div></div>
+  <div class="bc-row"><div class="bc-label">Cam Young<span>1 win</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:30%;background:var(--green);opacity:.5;"></div></div><div class="bc-val" style="color:var(--green);">+1.00</div></div>
+  <div class="bc-row"><div class="bc-label">Rose<span>1 win</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:30%;background:var(--green);opacity:.45;"></div></div><div class="bc-val" style="color:var(--green);">+1.00</div></div>
+  <div class="bc-row"><div class="bc-label">Gotterup<span>1 win</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:23%;background:var(--green);opacity:.4;"></div></div><div class="bc-val" style="color:var(--green);">+0.75</div></div>
+  <!-- GAP LINE -->
+  <div style="margin:14px 0 12px;border-top:1px dashed rgba(255,255,255,0.12);padding-top:10px;">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">── PROXIMITY BAND LEADERS BELOW ──</span>
+  </div>
+  <div class="bc-row"><div class="bc-label" style="color:var(--muted);">Ryder<span style="color:var(--muted);">0 wins · PUTT 23rd · OTT 259th</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:4%;background:var(--muted);opacity:.5;"></div></div><div class="bc-val" style="color:var(--muted);">+0.13</div></div>
+  <div class="bc-row"><div class="bc-label" style="color:var(--muted);">Kanaya<span style="color:var(--muted);">1 win · APP 336th · xW: 0.03</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:4%;background:var(--muted);opacity:.4;"></div></div><div class="bc-val" style="color:var(--muted);">+0.12</div></div>
+  <div class="bc-row"><div class="bc-label" style="color:var(--muted);">Hossler<span style="color:var(--muted);">0 wins · APP 302nd · ARG 10th</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:2%;background:var(--muted);opacity:.3;"></div></div><div class="bc-val" style="color:var(--muted);">+0.06</div></div>
+  <div class="bc-row"><div class="bc-label" style="color:var(--muted);">Eckroat<span style="color:var(--muted);">0 wins · APP 66th · ARG 363rd</span></div><div class="bc-bar-wrap"><div class="bc-bar-fill" style="width:1%;background:var(--muted);opacity:.3;"></div></div><div class="bc-val" style="color:var(--muted);">+0.04</div></div>
+  <div class="bc-row"><div class="bc-label" style="color:var(--red);">Salinda<span style="color:var(--red);">0 wins · PUTT 364th · TOT −0.25</span></div><div class="bc-bar-wrap" style="position:relative;"><div style="position:absolute;left:50%;top:0;width:8%;height:100%;background:var(--red);opacity:.5;"></div></div><div class="bc-val" style="color:var(--red);">−0.25</div></div>
+  <div class="bc-row"><div class="bc-label" style="color:var(--red);">Carson Young<span style="color:var(--red);">0 wins · ARG 347th · TOT −0.30</span></div><div class="bc-bar-wrap" style="position:relative;"><div style="position:absolute;left:50%;top:0;width:9%;height:100%;background:var(--red);opacity:.4;"></div></div><div class="bc-val" style="color:var(--red);">−0.30</div></div>
+</div>
+
+<!-- FOOTNOTE -->
+<div class="footnote">
+  <strong>Data:</strong> dg_performance_2025.csv, dg_performance_2026.csv — DataGolf.com. True SG values are calibrated per-round strokes gained against a universal field-strength baseline. Correlations computed across 407 players with shotlink_played &gt; 0. Nyholm excluded (−9999 SG fields). Win counts include all worldwide OWGR-sanctioned wins. Quadrant win rates computed across all 407 ShotLink players. All calculations original.
+</div>
+
+</div>
+</body>
+</html>
