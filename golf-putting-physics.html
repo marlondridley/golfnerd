@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Golf Physics of Putting — GolfNerd Vol. II</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #EDE8DC;
+    --ink: #1C1A16;
+    --ink-muted: #4A4640;
+    --ink-faint: #8A8278;
+    --crimson: #7A1818;
+    --rule: #C8C0B0;
+    --rule-dark: #1C1A16;
+    --eq-bg: #E4DDD0;
+    --table-head-bg: #E0D9CC;
+    --callout-bg: #E6E0D3;
+    --max-w: 780px;
+  }
+  html { background: var(--cream); }
+  body { font-family: 'Lora', Georgia, serif; font-size: 17px; line-height: 1.8; color: var(--ink); background: var(--cream); }
+
+  .site-nav { max-width: var(--max-w); margin: 0 auto; padding: 2rem 2rem 0; }
+  .site-nav a { font-family: 'Lora', serif; font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--crimson); text-decoration: none; }
+  .site-nav a:hover { text-decoration: underline; }
+  .nav-rule { border: none; border-top: 1px solid var(--rule-dark); margin: .75rem 0 0; }
+
+  .hero { max-width: var(--max-w); margin: 0 auto; padding: 3.5rem 2rem 0; text-align: center; }
+  .hero-kicker { font-family: 'Lora', serif; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--crimson); margin-bottom: 1.5rem; }
+  .hero-kicker span { margin: 0 .4em; }
+  .hero-title { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(42px, 7vw, 72px); font-weight: 900; line-height: 1.05; color: var(--ink); margin-bottom: 1.5rem; letter-spacing: -.01em; }
+  .hero-title em { font-style: italic; color: var(--crimson); }
+  .hero-subtitle { font-family: 'Lora', serif; font-size: 18px; font-style: italic; color: var(--ink-muted); line-height: 1.55; max-width: 560px; margin: 0 auto 2rem; }
+  .hero-rule { border: none; border-top: 1px solid var(--rule-dark); margin: 2rem 0; }
+  .hero-tags { font-family: 'Lora', serif; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-muted); line-height: 2; margin-bottom: 2rem; }
+  .hero-tags .dot { color: var(--crimson); margin: 0 .5em; font-size: 9px; vertical-align: middle; }
+  .hero-rule-bottom { border: none; border-top: 2px solid var(--rule-dark); margin: 0 0 3rem; }
+
+  .article { max-width: var(--max-w); margin: 0 auto; padding: 0 2rem 4rem; }
+  .part-label { font-family: 'Lora', serif; font-size: 11px; letter-spacing: .13em; text-transform: uppercase; color: var(--crimson); margin-bottom: .6rem; margin-top: 3.5rem; }
+  .section-head { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(22px, 3.5vw, 30px); font-weight: 700; line-height: 1.2; color: var(--ink); margin-bottom: 1.4rem; }
+  .chapter-head { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(20px, 3vw, 26px); font-weight: 700; line-height: 1.2; color: var(--ink); margin: 3rem 0 1rem; }
+  .chapter-head .chapter-num { font-family: 'Lora', serif; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--crimson); display: block; margin-bottom: .35rem; }
+  h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 19px; font-weight: 700; color: var(--ink); margin: 2rem 0 .6rem; }
+  p { margin-bottom: 1.2rem; }
+
+  .drop-cap::first-letter { font-family: 'Playfair Display', serif; font-size: 5.2em; font-weight: 900; color: var(--crimson); float: left; line-height: .78; margin: .08em .12em 0 0; }
+
+  .rule { border: none; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
+  .rule-dark { border: none; border-top: 1.5px solid var(--rule-dark); margin: 3rem 0; }
+  .orn { text-align: center; color: var(--ink-faint); font-size: 14px; letter-spacing: .4em; margin: 2.5rem 0; }
+
+  /* ── EQUATION BLOCKS ── */
+  .eq-label { font-family: 'Lora', serif; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); margin: 1.5rem 0 .3rem; }
+  .eq-block {
+    background: var(--eq-bg);
+    border-left: 3px solid var(--crimson);
+    border-radius: 0 4px 4px 0;
+    padding: 1.25rem 1.75rem;
+    margin: .4rem 0 1.4rem;
+    overflow-x: auto;
+  }
+  .eq-block .katex-display { margin: .5rem 0; }
+  .eq-block .katex { font-size: 1.12em; }
+  .eq-note { font-family: 'Lora', serif; font-size: 13px; color: var(--ink-muted); margin: .75rem 0 0 !important; font-style: italic; line-height: 1.65; }
+  .eq-note strong { font-style: normal; color: var(--ink); }
+  .eq-where { margin: .65rem 0 0; display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; font-family: 'Lora', serif; font-size: 13px; line-height: 1.65; }
+  .eq-where .sym { color: var(--ink-faint); white-space: nowrap; }
+  .eq-where .def { color: var(--ink-muted); }
+
+  .callout { background: var(--callout-bg); border-left: 4px solid var(--crimson); padding: 1rem 1.25rem; margin: 1.5rem 0; font-style: italic; font-size: 16px; line-height: 1.7; color: var(--ink-muted); border-radius: 0 4px 4px 0; }
+  .callout strong { font-style: normal; color: var(--ink); }
+
+  .table-wrap { overflow-x: auto; margin: 1rem 0 1.5rem; }
+  table { width: 100%; border-collapse: collapse; font-family: 'Lora', serif; font-size: 13.5px; line-height: 1.5; }
+  .table-label { font-family: 'Lora', serif; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); margin: 1.5rem 0 .35rem; }
+  thead th { background: var(--table-head-bg); font-weight: 500; padding: 8px 12px; text-align: left; border-bottom: 1.5px solid var(--rule-dark); color: var(--ink); font-size: 12px; letter-spacing: .04em; }
+  tbody td { padding: 7px 12px; border-bottom: .5px solid var(--rule); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: rgba(0,0,0,.025); }
+  .table-note { font-size: 12px; color: var(--ink-faint); font-style: italic; margin-top: .4rem; margin-bottom: 1rem; }
+
+  .toc { background: var(--callout-bg); border: 1px solid var(--rule); padding: 1.5rem 1.75rem; margin: 2rem 0 2.5rem; border-radius: 4px; }
+  .toc-title { font-family: 'Lora', serif; font-size: 11px; letter-spacing: .13em; text-transform: uppercase; color: var(--crimson); margin-bottom: 1rem; }
+  .toc-section { font-family: 'Lora', serif; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); margin: .9rem 0 .3rem; }
+  .toc a { display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 2px 0; line-height: 1.5; }
+  .toc a:hover { color: var(--crimson); }
+
+  .bib-section { margin-bottom: 1.5rem; }
+  .bib-sec-label { font-family: 'Lora', serif; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); border-bottom: 1px solid var(--rule); padding-bottom: .4rem; margin-bottom: .9rem; }
+  .bib-entry { display: grid; grid-template-columns: 4px 1fr; gap: 0 14px; margin-bottom: 1rem; align-items: start; }
+  .bib-bar { width: 4px; border-radius: 2px; min-height: 18px; align-self: stretch; }
+  .bib-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+  .bib-meta { font-size: 12px; color: var(--ink-muted); margin-bottom: 3px; }
+  .bib-note { font-size: 12.5px; color: var(--ink-faint); font-style: italic; line-height: 1.55; }
+  .tag { display: inline-block; font-family: 'Lora', serif; font-size: 10px; letter-spacing: .07em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; margin-right: 5px; margin-bottom: 4px; font-style: normal; }
+  .tag-physics { background: #DDD8CC; color: #3A3630; }
+  .tag-book    { background: #D6E8F5; color: #0C3D6A; }
+  .tag-paper   { background: #D9EDDA; color: #1A4D1C; }
+  .tag-tech    { background: #E8E2F8; color: #3A2878; }
+  .tag-coach   { background: #F5DDD6; color: #6A2010; }
+  .tag-data    { background: #D6EFE8; color: #0A4434; }
+
+  .article-footer { border-top: 1.5px solid var(--rule-dark); margin-top: 4rem; padding-top: 1.5rem; font-family: 'Lora', serif; font-size: 12px; color: var(--ink-faint); line-height: 2; text-align: center; letter-spacing: .03em; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 2rem 1.25rem 0; }
+    .article { padding: 0 1.25rem 3rem; }
+    .site-nav { padding: 1.5rem 1.25rem 0; }
+    .eq-block { padding: .9rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html">← Back to all articles</a>
+  <hr class="nav-rule">
+</nav>
+
+<header class="hero">
+  <p class="hero-kicker">Golf Nerd Deep Dive <span>·</span> Short Game Physics <span>·</span> Technical Field Guide</p>
+  <h1 class="hero-title">Golf Physics of <em>Putting</em></h1>
+  <p class="hero-subtitle">The pendulum, face angle, and the mathematics of holing more putts — developed from first principles across 14 chapters and 21 equations.</p>
+  <hr class="hero-rule">
+  <p class="hero-tags">
+    Pendulum Mechanics <span class="dot">◆</span>
+    Face Angle Tolerance <span class="dot">◆</span>
+    Impact Collision Physics <span class="dot">◆</span>
+    Slope Vectors <span class="dot">◆</span>
+    Putting Tempo <span class="dot">◆</span>
+    Strokes Gained
+  </p>
+  <hr class="hero-rule-bottom">
+</header>
+
+<article class="article">
+
+<div class="part-label">Introduction</div>
+<h2 class="section-head">Putting Is a Physics Problem Disguised as an Athletic Act</h2>
+<p class="drop-cap">Putting is not a "feel" discipline masquerading as a black box. It is a controlled impact event governed by pendulum mechanics, face angle tolerances measured in millimeters, friction coefficients between ball and turf, and the vector decomposition of slope. The difference between a made putt and a miss is rarely a matter of touch — it is almost always a matter of geometry.</p>
+<p>Where the wedge shot operates across a 6-inch impact window with 1.2° per inch rates of change, the putt operates across a 2-millimeter window at the face and a 1.68-inch window at the hole. The tolerances are smaller. The physics is cleaner. And the mathematics yields direct, actionable insights for every player who wants to stop guessing and start engineering.</p>
+
+<div class="toc">
+  <div class="toc-title">Contents · 14 Chapters · 21 Equations</div>
+  <div class="toc-section">Stroke Mechanics</div>
+  <a href="#ch1">I — The putter stroke as a pendulum</a>
+  <a href="#ch2">II — Face angle dominance: the 90/10 rule</a>
+  <a href="#ch3">III — The lateral miss equation</a>
+  <a href="#ch4">IV — The gate drill: applied tolerance geometry</a>
+  <a href="#ch5">V — Impact physics: skid, friction, and roll initiation</a>
+  <div class="toc-section">Green Reading</div>
+  <a href="#ch6">VI — Slope vectors and the physics of break</a>
+  <a href="#ch7">VII — Stimp rating and effective break</a>
+  <a href="#ch8">VIII — Capture speed: the physics of the hole</a>
+  <div class="toc-section">Performance &amp; Practice</div>
+  <a href="#ch9">IX — Strokes Gained Putting</a>
+  <a href="#ch10">X — The physics of practice</a>
+  <a href="#ch11">XI — Quick reference cheat sheet</a>
+  <div class="toc-section">Advanced Mechanics</div>
+  <a href="#ch13">XIII — Putting tempo: 62 BPM and the half-beat cadence</a>
+  <a href="#ch14">XIV — The impact event: collision mechanics and putter deceleration</a>
+  <div class="toc-section">Reference</div>
+  <a href="#ch12">XII — Master reference tables</a>
+  <a href="#bib">Bibliography and credits</a>
+</div>
+
+<p style="font-size:13px;color:var(--ink-faint);font-style:italic;">Mathematical foundations: Newton (1687) · Euler (1736) · Coulomb (1781) · Hertz (1882) · Galileo (1638). Golf-specific validation: SAM PuttLab · TrackMan · DataGolf 2025.</p>
+
+<div class="orn">· · ·</div>
+
+<!-- ══════════════════════════════════════════════ CH I -->
+<div id="ch1">
+<h2 class="chapter-head"><span class="chapter-num">Chapter I</span>The Putter Stroke as a Pendulum</h2>
+<p>The foundational assumption: the putter head moves along a circular arc centered at the player's sternum or lead shoulder. For a pure shoulder-driven stroke with wrists locked, this approximation is accurate to within fractions of a degree of face rotation through the impact zone. The effective radius <em>R</em> is typically 60–70 inches — longer than a wedge swing because the arms are extended and the pivot is higher.</p>
+
+<div class="eq-label">Eq. 1 — Face rotation rate along the arc · Euler (1736)</div>
+<div class="eq-block" id="eq1"><div class="katex-display"></div>
+  <div class="eq-where">
+    <span class="sym">\(\theta\)</span><span class="def">face angle (rad), open/closed relative to target line</span>
+    <span class="sym">\(s\)</span><span class="def">arc-length position along stroke (inches)</span>
+    <span class="sym">\(R\)</span><span class="def">effective pendulum radius (inches)</span>
+  </div>
+  <p class="eq-note">For <em>R</em> = 66 in:&ensp; d<em>θ</em>/d<em>s</em> = 1/66 = 0.0152 rad/in = <strong>0.87° per inch</strong></p>
+</div>
+<div class="callout">Every inch the putter head travels, the face rotates ~0.87°. Over a 2-inch impact zone, face rotation spans ±0.87° — already at the limit of hole-sized tolerance.</div>
+</div>
+
+<div class="orn">· · ·</div>
+
+<!-- ══════════════════════════════════════════════ CH II -->
+<div id="ch2">
+<h2 class="chapter-head"><span class="chapter-num">Chapter II</span>Face Angle Dominance — The 90/10 Rule</h2>
+<p>Face angle at impact determines 85–90% of initial ball direction. Path matters, but it is a second-order effect — a direct consequence of oblique-impact mechanics (Stronge, 2000; Cochran &amp; Stobbs, 1968).</p>
+
+<div class="eq-label">Eq. 2 — Initial ball direction · SAM PuttLab / TrackMan aggregate data</div>
+<div class="eq-block" id="eq2"><div class="katex-display"></div>
+  <p class="eq-note">Both angles measured relative to the target line. Coefficients vary slightly by putter geometry (face-balanced vs. toe-hang) but the dominance of face angle is invariant.</p>
+</div>
+</div>
+
+<div class="orn">· · ·</div>
+
+<!-- ══════════════════════════════════════════════ CH III -->
+<div id="ch3">
+<h2 class="chapter-head"><span class="chapter-num">Chapter III</span>The Lateral Miss Equation — Why 1° Costs You the Cup</h2>
+
+<div class="eq-label">Eq. 3 — Lateral deflection from face angle error</div>
+<div class="eq-block" id="eq3"><div class="katex-display"></div>
+  <div class="eq-where">
+    <span class="sym">\(\delta\)</span><span class="def">lateral miss at hole (inches)</span>
+    <span class="sym">\(D\)</span><span class="def">putt distance (inches)</span>
+    <span class="sym">\(\theta\)</span><span class="def">face angle error (radians); for small angles, \(\tan\theta\approx\theta\)</span>
+  </div>
+  <p class="eq-note"><strong>Worked example — 8-foot putt at 1° open:</strong>&ensp; <em>D</em> = 96 in, <em>θ</em> = 0.01745 rad &ensp;→&ensp; <em>δ</em> = 96 × 0.01745 = <strong>1.68 inches</strong>. Hole radius = 2.125 in.</p>
+</div>
+
+<div class="table-label">Table 1 — Face Angle Tolerance Matrix</div>
+<div class="table-wrap"><table>
+  <thead><tr><th>Face angle error</th><th>Miss at 6 ft</th><th>Miss at 8 ft</th><th>Miss at 10 ft</th><th>Miss at 15 ft</th><th>Result</th></tr></thead>
+  <tbody>
+    <tr><td>0.25°</td><td>0.63"</td><td>0.84"</td><td>1.05"</td><td>1.57"</td><td>Center cut possible</td></tr>
+    <tr><td>0.5°</td><td>1.26"</td><td>1.68"</td><td>2.10"</td><td>3.14"</td><td>Edge of cup</td></tr>
+    <tr><td>1.0°</td><td>1.26"</td><td>1.68"</td><td>2.09"</td><td>3.14"</td><td>Miss at 8 ft+</td></tr>
+    <tr><td>1.5°</td><td>1.89"</td><td>2.51"</td><td>3.14"</td><td>4.71"</td><td>Miss at 6 ft+</td></tr>
+    <tr><td>2.0°</td><td>2.51"</td><td>3.35"</td><td>4.19"</td><td>6.28"</td><td>Miss all distances</td></tr>
+  </tbody>
+</table></div>
+<div class="callout"><strong>The tolerance reality:</strong> On putts longer than 8 feet, face angle must be controlled to within 0.5° for a reasonable chance of holing. At 15+ feet, 0.25° precision is required — smaller than the thickness of a pencil. Source: Pelz, <em>Putting Bible</em> (2000).</div>
+</div>
+
+<div class="orn">· · ·</div>
+
+<!-- ══════════════════════════════════════════════ CH IV -->
+<div id="ch4">
+<h2 class="chapter-head"><span class="chapter-num">Chapter IV</span>The Gate Drill — Applied Tolerance Geometry</h2>
+<p>The gate drill is a physical implementation of Eq. 3, training face angle precision without electronics (Pelz, 2000).</p>
+
+<div class="eq-label">Eq. 4 — Gate drill tolerance angle</div>
+<div class="eq-block" id="eq4"><div class="katex-display"></div>
+  <div class="eq-where">
+    <span class="sym">\(W_g\)</span><span class="def">gate width (inches)</span>
+    <span class="sym">\(D_b\)</span><span class="def">ball diameter = 1.68 inches</span>
+    <span class="sym">\(L_g\)</span><span class="def">distance from ball to gate (inches)</span>
+  </div>
+  <p class="eq-note"><strong>Standard setup:</strong> \(W_g\) = 2.2 in, \(L_g\) = 12 in &ensp;→&ensp; \(\theta_{\max}\) = arctan(0.52/24) = <strong>±1.24°</strong></p>
+</div>
+<div class="callout">A gate set 12 inches ahead with 0.5-inch clearance trains exactly the ±1.24° face precision required for 8-foot putts. Twenty consecutive passes without touching either tee builds tour-standard muscle memory.</div>
+</div>
+
+<div class="orn">· · ·</div>
+
+<!-- ══════════════════════════════════════════════ CH V -->
+<div id="ch5">
+<h2 class="chapter-head"><span class="chapter-num">Chapter V</span>Impact Physics — Skid, Friction, and Roll Initiation</h2>
+<p>Three phases unfold in under 0.5 seconds: compression, skid, and true roll. The Coulomb friction model (1781) and Penner's rolling friction analysis (<em>Canadian Journal of Physics</em>, 2002) govern each phase.</p>
+
+<h3>Phase 2 — Skid Distance</h3>
+<div class="eq-label">Eq. 5 — Skid distance · Coulomb (1781)</div>
+<div class="eq-block" id="eq5"><div class="katex-display"></div>
+  <div class="eq-where">
+    <span class="sym">\(v_0\)</span><span class="def">ball speed immediately after impact (ft/s)</span>
+    <span class="sym">\(\mu_t\)</span><span class="def">kinetic friction coefficient, ball on turf (0.20–0.50)</span>
+    <span class="sym">\(g\)</span><span class="def">32.2 ft/s²</span>
+  </div>
+  <p class="eq-note"><strong>10-foot putt</strong> (\(v_0 \approx 5.5\) ft/s, \(\mu_t = 0.30\)):&ensp; \(L_{\text{skid}}\) = 30.25/19.32 = <strong>19 inches</strong></p>
+</div>
+
+<h3>Phase 3 — Roll Initiation Condition</h3>
+<div class="eq-label">Eq. 5b — Pure roll condition · Newton (1687)</div>
+<div class="eq-block" id="eq5b"><div class="katex-display"></div>
+  <div class="eq-where">
+    <span class="sym">\(v\)</span><span class="def">translational ball speed (ft/s)</span>
+    <span class="sym">\(r\)</span><span class="def">ball radius = 0.843 inches</span>
+    <span class="sym">\(\omega\)</span><span class="def">angular velocity (rad/s)</span>
+  </div>
+</div>
+<div class="callout">A 10-foot putt skids for nearly 2 feet before pure forward roll begins. During skid the ball is susceptible to surface imperfections and any face angle error is amplified. Optimal dynamic loft at impact is 2–3°.</div>
+</div>
+
+<div class="rule-dark"></div>
+<div class="part-label">Part II · Green Reading</div>
+<h2 class="section-head">Why Break Defies Intuition</h2>
+
+<!-- ══════════════════════════════════════════════ CH VI -->
+<div id="ch6">
+<h2 class="chapter-head"><span class="chapter-num">Chapter VI</span>Slope Vectors and the Physics of Break</h2>
+<p>A green is an inclined plane. The ball's lateral acceleration is a function of slope angle and the direction of that slope relative to the putt line — grounded in Galileo (1638) and formalized by Penner (2002).</p>
+
+<div class="eq-label">Eq. 6a — Lateral gravitational acceleration on slope · Galileo (1638)</div>
+<div class="eq-block" id="eq6a"><div class="katex-display"></div>
+  <div class="eq-where">
+    <span class="sym">\(\theta_s\)</span><span class="def">slope angle (degrees)</span>
+    <span class="sym">\(\phi\)</span><span class="def">angle between putt line and fall line (degrees)</span>
+  </div>
+</div>
+
+<div class="eq-label">Eq. 6b — Break accumulation (simplified)</div>
+<div class="eq-block" id="eq6b"><div class="katex-display"></div>
+  <p class="eq-note">Break increases with the <em>square</em> of time. Since time scales with distance, break grows quadratically with putt length. A 20-foot putt breaks more than twice as much as a 10-foot putt on the same slope.</p>
+</div>
+
+<div class="table-label">Table 2 — Break Reference · 1% Slope, Perpendicular to Fall Line</div>
+<div class="table-wrap"><table>
+  <thead><tr><th>Putt length</th><th>Break (inches)</th><th>Break (ball widths)</th></tr></thead>
+  <tbody>
+    <tr><td>5 ft</td><td>1.7"</td><td>1.0</td></tr>
+    <tr><td>10 ft</td><td>6.7"</td><td>4.0</td></tr>
+    <tr><td>15 ft</td><td>15.1"</td><td>9.0</td></tr>
+    <tr><td>20 ft</td><td>26.8"</td><td>16.0</td></tr>
+  </tbody>
+</table></div>
+</div>
+
+<div class="orn">· · ·</div>
+
+<!-- ══════════════════════════════════════════════ CH VII -->
+<div id="ch7">
+<h2 class="chapter-head"><span class="chapter-num">Chapter VII</span>Stimp Rating and Effective Break</h2>
+
+<div class="eq-label">Eq. 7 — Deceleration due to rolling friction · Penner (2002)</div>
+<div class="eq-block" id="eq7"><div class="katex-display"></div>
+  <div class="eq-where">
+    <span class="sym">\(\mu_r\)</span><span class="def">rolling friction coefficient &ensp;(Stimp 8 ≈ 0.056;&ensp; Stimp 10 ≈ 0.045;&ensp; Stimp 12 ≈ 0.037)</span>
+  </div>
+</div>
+
+<div class="table-label">Table 3 — Break vs. Stimp · 10-ft Putt · 1% Slope Perpendicular</div>
+<div class="table-wrap"><table>
+  <thead><tr><th>Stimp</th><th>μ<sub>r</sub></th><th>Travel time (s)</th><th>Break (in)</th></tr></thead>
+  <tbody>
+    <tr><td>8</td><td>0.056</td><td>1.51</td><td>7.4"</td></tr>
+    <tr><td>10</td><td>0.045</td><td>1.48</td><td>7.1"</td></tr>
+    <tr><td>12</td><td>0.037</td><td>1.46</td><td>6.9"</td></tr>
+  </tbody>
+</table></div>
+<div class="callout"><strong>Counterintuitive finding (Penner, 2002):</strong> Slower greens break more for the same slope and distance. Fast greens are harder to stop near the hole, but they actually reduce break.</div>
+</div>
+
+<div class="orn">· · ·</div>
+
+<!-- ══════════════════════════════════════════════ CH VIII -->
+<div id="ch8">
+<h2 class="chapter-head"><span class="chapter-num">Chapter VIII</span>Capture Speed — The Physics of the Hole</h2>
+
+<div class="eq-label">Eq. 8 — Capture speed limit · energy conservation · Penner (2002)</div>
+<div class="eq-block" id="eq8"><div class="katex-display"></div>
+  <div class="eq-where">
+    <span class="sym">\(h_{\ell}\)</span><span class="def">height of hole lip above green surface (typically 0.25–0.50 in)</span>
+  </div>
+  <p class="eq-note">For \(h_\ell\) = 0.25 in (0.0208 ft):&ensp; \(v_c = \sqrt{2 \times 32.2 \times 0.0208}\) = <strong>1.16 ft/s</strong>. A ball moving faster than ~1.1 ft/s lips out even when dead center.</p>
+</div>
+
+<div class="table-label">Table 4 — Effective Hole Size vs. Ball Speed at Hole</div>
+<div class="table-wrap"><table>
+  <thead><tr><th>Speed at hole</th><th>Effective radius</th><th>Effective diameter</th><th>Face angle tolerance (8 ft)</th></tr></thead>
+  <tbody>
+    <tr><td>0.5 ft/s</td><td>2.13"</td><td>4.25"</td><td>±1.27°</td></tr>
+    <tr><td>0.8 ft/s</td><td>1.70"</td><td>3.40"</td><td>±1.01°</td></tr>
+    <tr><td>1.0 ft/s</td><td>1.28"</td><td>2.56"</td><td>±0.76°</td></tr>
+    <tr><td>1.16 ft/s (limit)</td><td>0"</td><td>0"</td><td>0°</td></tr>
+  </tbody>
+</table></div>
+<div class="callout">Dying the ball at the hole is physical necessity, not style. Lower speed maximizes the effective target and compensates for small face angle errors. Source: Stockton (2011); Penner (2002).</div>
+</div>
+
+<div class="rule-dark"></div>
+<div class="part-label">Part III · Performance</div>
+
+<!-- ══════════════════════════════════════════════ CH IX -->
+<div id="ch9">
+<h2 class="chapter-head"><span class="chapter-num">Chapter IX</span>Strokes Gained Putting — Where Putts Are Actually Lost</h2>
+<p>DataGolf 2025 (421 players, full PGA Tour season). Strokes Gained framework invented by Mark Broadie (Columbia Business School, <em>Every Shot Counts</em>, 2014).</p>
+<h3>0–6 Feet — The Face Angle Zone</h3>
+<p>Make percentage drops from 99% at 2 feet to 50% at 6 feet. At 5 feet, a 1° face angle error produces 1.05 inches of miss — inside the hole if speed is controlled, outside if not.</p>
+<h3>6–15 Feet — Where the Tour Separates</h3>
+<p>Face angle consistency within ±0.5°, skid distance under 6 inches, and start line accuracy (85% face angle per Eq. 2) are the dominant physics drivers.</p>
+<h3>15+ Feet — Speed Dominates</h3>
+<p>Quadratic break accumulation (Eq. 6b) makes long putts disproportionately sensitive to speed errors. A 3-foot finish error compounds into additional Strokes Lost on the subsequent putt.</p>
+
+<div class="table-label">Tour Benchmarks · DataGolf 2025</div>
+<div class="table-wrap"><table>
+  <thead><tr><th>Metric</th><th>Tour standard</th></tr></thead>
+  <tbody>
+    <tr><td>Face angle variation, 6–15 ft</td><td>±0.25° (SAM PuttLab)</td></tr>
+    <tr><td>Skid distance</td><td>&lt; 4 inches</td></tr>
+    <tr><td>Make percentage from 8 ft</td><td>50% (PGA Tour average)</td></tr>
+    <tr><td>Three-putt avoidance from 30+ ft</td><td>&gt; 95%</td></tr>
+  </tbody>
+</table></div>
+</div>
+
+<div class="orn">· · ·</div>
+
+<!-- ══════════════════════════════════════════════ CH X & XI (condensed) -->
+<div id="ch10">
+<h2 class="chapter-head"><span class="chapter-num">Chapter X</span>The Physics of Practice</h2>
+<p><strong>1. Face angle control (gate drill)</strong> — 20 consecutive passes through a 12-inch gate. Builds 1.24° tolerance (Eq. 4) required for 8-foot putts.</p>
+<p><strong>2. Skid reduction (impact tape)</strong> — Strike within 2 mm of center. Off-center strikes of ¼" lose 5–8% energy and add 1–2° face rotation via gear effect.</p>
+<p><strong>3. Loft delivery (putting mirror)</strong> — Dynamic loft 2–3° at impact. Loft &gt; 4° increases skid; negative loft launches the ball into the turf.</p>
+<p><strong>4. Start line validation (string)</strong> — 8–10 feet of string on the hole. If ball starts off-line, face angle is the cause — not path.</p>
+<p><strong>5. Speed control (ladder drill)</strong> — Tees at 3-foot intervals, 10–40 feet. Speed errors on long putts cost more Strokes Lost than line errors (Broadie, 2014).</p>
+</div>
+
+<div class="orn">· · ·</div>
+
+<div id="ch11">
+<h2 class="chapter-head"><span class="chapter-num">Chapter XI</span>Quick Reference — Player Cheat Sheet</h2>
+<div class="callout"><strong>Face angle rules the ball.</strong> 85–90% of starting direction comes from face angle. A 1° open face = 1.7" right on an 8-foot putt. You have ~0.5° of margin. → Ch. II, Eq. 2</div>
+<div class="callout"><strong>The gate teaches tolerance.</strong> 12 inches ahead, 0.5" clearance = ±1.24° face precision. Twenty passes in a row. → Ch. IV, Eq. 4</div>
+<div class="callout"><strong>Skid kills line.</strong> Every putt skids 6–24 inches before rolling true. Target 2–3° dynamic loft. → Ch. V, Eq. 5</div>
+<div class="callout"><strong>Slower greens break more.</strong> Fast greens reduce break but shrink speed margin. → Ch. VII, Eq. 7</div>
+<div class="callout"><strong>Die it in the hole.</strong> At 1.16 ft/s, a dead-center hit lips out. Speed kills margin. → Ch. VIII, Eq. 8</div>
+<div class="callout"><strong>62 BPM, 1:1 ratio.</strong> 0.484 s per half-stroke. Symmetric arc decelerates at impact by design. Distance = backstroke amplitude alone. → Ch. XIII</div>
+<div class="callout"><strong>The putter retains 78% of its speed.</strong> Ball launches at 1.61× putter head speed. Peak contact force on a 10-foot putt exceeds 300 N in 0.4 ms. → Ch. XIV</div>
+</div>
+
+<div class="rule-dark"></div>
+<div class="part-label">Part IV · Advanced Mechanics</div>
+
+<!-- ══════════════════════════════════════════════ CH XIII -->
+<div id="ch13">
+<h2 class="chapter-head"><span class="chapter-num">Chapter XIII</span>Putting Tempo — 62 BPM and the Half-Beat Cadence</h2>
+<p>Tour research and coaching consensus converge on 62 beats per minute, each half-stroke occupying one half-beat. This emerges from pendulum mechanics and neuromotor timing research (Novosel, <em>Tour Tempo</em>, 2004; validated by Capto sensor data).</p>
+
+<div class="eq-label">Eq. 9 — Half-beat interval at 62 BPM · Novosel (2004)</div>
+<div class="eq-block" id="eq9"><div class="katex-display"></div>
+  <p class="eq-note">Each half-stroke = 0.484 s. Total cycle = 0.968 s. Back-to-through ratio = 1 : 1.</p>
+</div>
+
+<div class="eq-label">Eq. 10 — Putter arc position and acceleration · sinusoidal model · Jorgensen (1994)</div>
+<div class="eq-block" id="eq10"><div class="katex-display"></div>
+  <div class="eq-where">
+    <span class="sym">\(A\)</span><span class="def">backstroke arc amplitude (feet)</span>
+    <span class="sym">\(T\)</span><span class="def">stroke period = 0.968 s</span>
+  </div>
+  <p class="eq-note">At impact — the bottom of the arc, \(t = T/4\) — the putter is simultaneously at <em>peak velocity</em> and <em>maximum deceleration</em>. Any attempt to add acceleration through the ball breaks the symmetry and destroys distance consistency.</p>
+</div>
+
+<div class="eq-label">Eq. 11 — Peak putter velocity from backstroke amplitude</div>
+<div class="eq-block" id="eq11"><div class="katex-display"></div>
+  <p class="eq-note">Distance control becomes a function of backstroke amplitude alone — reproducible and measurable.</p>
+</div>
+
+<div class="eq-label">Eq. 12 — Natural pendulum period · Euler (1736)</div>
+<div class="eq-block" id="eq12"><div class="katex-display"></div>
+  <p class="eq-note">For \(R\) = 66 in = 1.676 m:&ensp; \(T_n = 2\pi\sqrt{1.676/9.81}\) = 2.597 s &ensp;→&ensp; \(f_n\) = <strong>23.1 BPM</strong>. The 62 BPM cadence is a driven rhythm — nearly 3× faster than the arm's natural pendulum frequency.</p>
+</div>
+
+<div class="callout">A "naturally swinging" stroke would take 2.6 seconds per cycle and run at 23 BPM. The 62 BPM cadence is driven — the player actively controls timing, which is precisely what makes it reproducible.</div>
+
+<div class="table-label">Table 5 — Amplitude–Distance Reference at 62 BPM</div>
+<div class="table-wrap"><table>
+  <thead><tr><th>Backstroke</th><th>v<sub>peak</sub> (ft/s)</th><th>Ball speed (ft/s)</th><th>Approx. distance</th></tr></thead>
+  <tbody>
+    <tr><td>3"</td><td>1.62</td><td>2.61</td><td>4–5 ft</td></tr>
+    <tr><td>5"</td><td>2.71</td><td>4.37</td><td>8–10 ft</td></tr>
+    <tr><td>7"</td><td>3.79</td><td>6.11</td><td>14–16 ft</td></tr>
+    <tr><td>10"</td><td>5.41</td><td>8.73</td><td>22–25 ft</td></tr>
+    <tr><td>14"</td><td>7.57</td><td>12.2</td><td>40+ ft</td></tr>
+  </tbody>
+</table></div>
+<p class="table-note">Ball speed = v<sub>peak</sub> × smash factor 1.613 (M = 340 g, COR = 0.83). Distances approximate.</p>
+</div>
+
+<div class="orn">· · ·</div>
+
+<!-- ══════════════════════════════════════════════ CH XIV -->
+<div id="ch14">
+<h2 class="chapter-head"><span class="chapter-num">Chapter XIV</span>The Impact Event — Collision Mechanics, Energy Transfer, and Putter Deceleration</h2>
+<p>The 0.4-millisecond window of putter-ball contact is the most physics-dense moment in putting. Two bodies exchange momentum through a contact patch the size of a thumbnail, generating peak forces measured in hundreds of newtons. The framework draws on Newton (1687), Hertz (1882), and Stronge (2000).</p>
+
+<div class="table-label">System Parameters</div>
+<div class="table-wrap"><table>
+  <thead><tr><th>Parameter</th><th>Symbol</th><th>Value</th></tr></thead>
+  <tbody>
+    <tr><td>Putter head mass (blade)</td><td><em>M</em></td><td>320–360 g (0.340 kg typical)</td></tr>
+    <tr><td>Putter head mass (mallet)</td><td><em>M</em></td><td>360–500 g</td></tr>
+    <tr><td>Ball mass</td><td><em>m</em></td><td>45.93 g (0.04593 kg)</td></tr>
+    <tr><td>Mass ratio</td><td><em>M/m</em></td><td>7.4 : 1</td></tr>
+    <tr><td>Coefficient of restitution</td><td><em>e</em></td><td>0.75–0.85 (milled: 0.83)</td></tr>
+    <tr><td>Contact duration</td><td>Δ<em>t</em></td><td>0.35–0.45 ms</td></tr>
+  </tbody>
+</table></div>
+
+<div class="eq-label">Eq. 13 — Conservation of linear momentum · Newton (1687)</div>
+<div class="eq-block" id="eq13"><div class="katex-display"></div>
+  <div class="eq-where">
+    <span class="sym">\(v_p\)</span><span class="def">putter head speed before impact</span>
+    <span class="sym">\(v_p'\)</span><span class="def">putter head speed after impact</span>
+    <span class="sym">\(v_b'\)</span><span class="def">ball speed after impact (ball at rest before)</span>
+  </div>
+</div>
+
+<div class="eq-label">Eq. 14 — Coefficient of restitution · Hertz (1882) / Stronge (2000)</div>
+<div class="eq-block" id="eq14"><div class="katex-display"></div></div>
+
+<div class="eq-label">Eq. 15 — Post-impact velocities (Eq. 13 and 14 solved simultaneously)</div>
+<div class="eq-block" id="eq15"><div class="katex-display"></div>
+  <p class="eq-note">For a standard blade putter (<em>M</em> = 0.340 kg, <em>m</em> = 0.04593 kg, <em>e</em> = 0.83):<br>
+  &emsp;\(v_b' = 1.613\,v_p\) &ensp;— ball launches at 1.613× putter head speed<br>
+  &emsp;\(v_p' = 0.782\,v_p\) &ensp;— putter retains 78.2% of its pre-impact speed</p>
+</div>
+<div class="callout">The putter does <em>not</em> stop at the ball — it continues forward, decelerating. The smash factor of 1.613 is set entirely by mass ratio and COR (Cochran &amp; Stobbs, 1968).</div>
+
+<div class="eq-label">Eq. 16 — Smash factor · Cochran &amp; Stobbs (1968)</div>
+<div class="eq-block" id="eq16"><div class="katex-display"></div>
+  <p class="eq-note">Blade (<em>M</em> = 340 g, <em>e</em> = 0.83): SF = 1.613 &ensp;|&ensp; Mallet (<em>M</em> = 430 g): SF = 1.641 &ensp;|&ensp; Driver (<em>M</em> = 200 g): SF = 1.460</p>
+</div>
+
+<div class="eq-label">Eq. 17 — Kinetic energy partition</div>
+<div class="eq-block" id="eq17"><div class="katex-display"></div>
+  <p class="eq-note">Ball receives <strong>35.1%</strong>, putter retains <strong>61.2%</strong>, lost to heat/sound/deformation: <strong>3.7%</strong>.</p>
+</div>
+
+<h3>The Contact Force Profile</h3>
+<p>High-speed measurements show the contact force follows an approximately half-sine pulse: rising from zero, peaking at mid-contact, returning to zero as the ball separates.</p>
+
+<div class="eq-label">Eq. 18 — Half-sine contact force model · Stronge (2000)</div>
+<div class="eq-block" id="eq18"><div class="katex-display"></div>
+  <p class="eq-note">The impulse equals the change in ball momentum:&ensp; \(\displaystyle\int_0^{\Delta t} F(t)\,dt = F_{\max}\!\cdot\!\Delta t\!\cdot\!\tfrac{2}{\pi} = m\,v_b'\)</p>
+</div>
+
+<div class="eq-label">Eq. 19 — Peak contact force</div>
+<div class="eq-block" id="eq19"><div class="katex-display"></div>
+  <p class="eq-note">10-ft putt: <strong>303 N (68 lbf)</strong> &ensp;|&ensp; 20-ft: <strong>494 N (111 lbf)</strong> &ensp;|&ensp; 30-ft: <strong>660 N (148 lbf)</strong></p>
+</div>
+<div class="callout">A gentle 10-foot putt generates a peak contact force of 303 newtons in under half a millisecond. The "soft feel" of a milled putter is about the smoothness of the half-sine rise and fall — not about lower force.</div>
+
+<div class="eq-label">Eq. 20 — Putter deceleration during contact · Newton's 3rd law</div>
+<div class="eq-block" id="eq20"><div class="katex-display"></div>
+  <p class="eq-note">The fractional velocity loss \(\Delta v_p = -0.218\,v_p\) is always constant — it depends only on mass ratio and COR, not on putt distance. The <em>absolute</em> deceleration scales with distance: a 30-footer subjects the putter to <strong>~200 g</strong> in 0.4 ms. The contact is complete before any neural feedback reaches the brain.</p>
+</div>
+
+<h3>Gear Effect — Off-Center Impact</h3>
+<div class="eq-label">Eq. 21 — Putter rotation from off-center strike · Cochran &amp; Stobbs (1968)</div>
+<div class="eq-block" id="eq21"><div class="katex-display"></div>
+  <div class="eq-where">
+    <span class="sym">\(d\)</span><span class="def">miss distance from sweetspot (meters)</span>
+    <span class="sym">\(J\)</span><span class="def">moment of inertia about vertical axis &ensp;(blade ≈ 2×10⁻⁴ kg·m²;&ensp; mallet ≈ 5×10⁻⁴ kg·m²)</span>
+  </div>
+  <p class="eq-note">5 mm miss, 10-ft putt, blade: \(\omega\) = 1.93 rad/s &ensp;→&ensp; face rotates 0.044° during contact &ensp;→&ensp; ~5% ball speed reduction. Mallet reduces gear effect by 2.5× via larger <em>J</em>.</p>
+</div>
+<div class="callout">The mallet's larger MOI reduces gear effect by more than 2.5× for the same miss — rotational inertia resisting face twist during 0.4 ms of contact. This is the physical reason mallets are forgiving.</div>
+</div>
+
+<div class="rule-dark"></div>
+
+<!-- ══════════════════════════════════════════════ CH XII -->
+<div id="ch12">
+<h2 class="chapter-head"><span class="chapter-num">Chapter XII</span>Master Reference — Putting Parameters</h2>
+
+<div class="table-label">Table 6 — Physical Constants and Putting Parameters</div>
+<div class="table-wrap"><table>
+  <thead><tr><th>Parameter</th><th>Imperial</th><th>Metric</th></tr></thead>
+  <tbody>
+    <tr><td>Ball diameter</td><td>1.68"</td><td>42.7 mm</td></tr>
+    <tr><td>Hole diameter</td><td>4.25"</td><td>108 mm</td></tr>
+    <tr><td>Ball mass</td><td>1.62 oz</td><td>45.93 g</td></tr>
+    <tr><td>Putter COR (milled)</td><td>0.83</td><td>—</td></tr>
+    <tr><td>Green friction μ (Stimp 10)</td><td>≈ 0.045</td><td>—</td></tr>
+    <tr><td>Typical skid distance</td><td>6–24"</td><td>15–60 cm</td></tr>
+    <tr><td>Tour face angle variation</td><td>±0.25°</td><td>—</td></tr>
+    <tr><td>Capture speed limit</td><td>1.16 ft/s</td><td>0.35 m/s</td></tr>
+    <tr><td>Contact duration</td><td>0.4 ms</td><td>4 × 10⁻⁴ s</td></tr>
+    <tr><td>Putting tempo (tour)</td><td>62 BPM, 1:1</td><td>0.484 s/half-stroke</td></tr>
+    <tr><td>Smash factor (blade, e = 0.83)</td><td>1.613</td><td>—</td></tr>
+    <tr><td>Putter speed retained post-impact</td><td>78.2%</td><td>—</td></tr>
+  </tbody>
+</table></div>
+
+<div class="table-label">Table 7 — All 21 Equations at a Glance</div>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Equation</th><th>Formula</th><th>Source</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Face rotation rate</td><td>dθ/ds = 1/R</td><td>Euler (1736)</td></tr>
+    <tr><td>2</td><td>Initial direction</td><td>0.85·θ_face + 0.15·θ_path</td><td>SAM / TrackMan</td></tr>
+    <tr><td>3</td><td>Lateral miss</td><td>δ = D·tan θ</td><td>Geometry</td></tr>
+    <tr><td>4</td><td>Gate tolerance</td><td>arctan((W − D_b)/(2L))</td><td>Applied geometry</td></tr>
+    <tr><td>5</td><td>Skid distance</td><td>v₀²/(2μ<sub>t</sub>g)</td><td>Coulomb (1781)</td></tr>
+    <tr><td>5b</td><td>Roll condition</td><td>v = rω</td><td>Newton (1687)</td></tr>
+    <tr><td>6a</td><td>Slope acceleration</td><td>g·sin θ<sub>s</sub>·sin φ</td><td>Galileo (1638)</td></tr>
+    <tr><td>6b</td><td>Break accumulation</td><td>½g·sin θ<sub>s</sub>·sin φ·t²</td><td>Kinematics</td></tr>
+    <tr><td>7</td><td>Rolling deceleration</td><td>μ<sub>r</sub>·g</td><td>Penner (2002)</td></tr>
+    <tr><td>8</td><td>Capture speed</td><td>√(2g·h<sub>ℓ</sub>)</td><td>Energy conservation</td></tr>
+    <tr><td>9</td><td>Tempo half-beat</td><td>T<sub>half</sub> = 30/BPM</td><td>Novosel (2004)</td></tr>
+    <tr><td>10</td><td>Stroke acceleration</td><td>−A(2π/T)²·sin(2πt/T)</td><td>Jorgensen (1994)</td></tr>
+    <tr><td>11</td><td>Peak putter speed</td><td>A·(2π/T)</td><td>Pendulum mechanics</td></tr>
+    <tr><td>12</td><td>Natural period</td><td>2π√(R/g)</td><td>Euler (1736)</td></tr>
+    <tr><td>13</td><td>Momentum conservation</td><td>Mv<sub>p</sub> = Mv<sub>p</sub>' + mv<sub>b</sub>'</td><td>Newton (1687)</td></tr>
+    <tr><td>14</td><td>COR definition</td><td>e = (v<sub>b</sub>' − v<sub>p</sub>')/v<sub>p</sub></td><td>Hertz (1882)</td></tr>
+    <tr><td>15</td><td>Post-impact speeds</td><td>v<sub>b</sub>' = M(1+e)v<sub>p</sub>/(M+m)</td><td>Newton + Hertz</td></tr>
+    <tr><td>16</td><td>Smash factor</td><td>M(1+e)/(M+m)</td><td>Cochran &amp; Stobbs (1968)</td></tr>
+    <tr><td>17</td><td>Energy to ball</td><td>η<sub>ball</sub> = mM(1+e)²/(M+m)²</td><td>Energy conservation</td></tr>
+    <tr><td>18</td><td>Contact force profile</td><td>F<sub>max</sub>·sin(πt/Δt)</td><td>Stronge (2000)</td></tr>
+    <tr><td>19</td><td>Peak contact force</td><td>πmv<sub>b</sub>'/(2Δt)</td><td>Impulse-momentum</td></tr>
+    <tr><td>20</td><td>Putter deceleration</td><td>F<sub>max</sub>/M &ensp;(peak 90–200 g)</td><td>Newton 3rd law</td></tr>
+    <tr><td>21</td><td>Gear effect rotation</td><td>m·v<sub>b</sub>'·d/J</td><td>Cochran &amp; Stobbs (1968)</td></tr>
+  </tbody>
+</table></div>
+</div>
+
+<div class="rule-dark"></div>
+
+<!-- CONCLUSION -->
+<div class="part-label">Conclusion</div>
+<h2 class="section-head">The Numbers Are Not Cold — They Are Liberating</h2>
+<p>Putting is a physics problem disguised as an athletic act. The moment the putter face contacts the ball — a window of 0.4 milliseconds and a contact patch the size of a thumbnail — a cascade of interrelated forces determines whether the ball finds the hole or misses by fractions of an inch. The geometry of the pendulum stroke gives us the rate of face rotation. The 62 BPM cadence sets that geometry in repeatable motion. Impact mechanics explain why face angle dominates direction and why the putter slows by exactly 21.8% regardless of strike speed. The friction model explains skid and the transition to pure roll. The green reading vector problem reveals why break accumulates quadratically. And the capture speed limit shows us why dying the ball in the hole is not just good advice — it is physical necessity.</p>
+<p>The numbers tell you what to practice, what to measure, and what to ignore. And they remind us that in putting, as in all of golf, the margin between success and failure is measured not in yards or even inches — but in millimeters and milliseconds.</p>
+
+<div class="rule-dark"></div>
+
+<!-- BIBLIOGRAPHY -->
+<div id="bib">
+<h2 class="chapter-head"><span class="chapter-num">Bibliography</span>Sources and Credits</h2>
+<p style="font-size:14px;color:var(--ink-muted);font-style:italic;margin-bottom:1.5rem;">Every empirical coefficient in this guide traces to a named source below.</p>
+
+<div class="bib-section">
+  <div class="bib-sec-label">Foundational Physics</div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#8A8278"></div><div><div class="bib-title">Isaac Newton — Philosophiæ Naturalis Principia Mathematica (1687)</div><div class="bib-meta"><span class="tag tag-physics">Physics</span> Royal Society, London</div><div class="bib-note">Laws of motion and momentum conservation — basis of collision equations (Ch. XIV, Eq. 13–15, 20).</div></div></div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#8A8278"></div><div><div class="bib-title">Leonhard Euler — Mechanica (1736)</div><div class="bib-meta"><span class="tag tag-physics">Physics</span> St. Petersburg Academy</div><div class="bib-note">Pendulum equations — face rotation rate (Eq. 1) and natural period (Eq. 12).</div></div></div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#8A8278"></div><div><div class="bib-title">Charles-Augustin de Coulomb — Théorie des machines simples (1781)</div><div class="bib-meta"><span class="tag tag-physics">Physics</span></div><div class="bib-note">Friction model governing the skid phase on the green (Eq. 5).</div></div></div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#8A8278"></div><div><div class="bib-title">Galileo Galilei — Discorsi e Dimostrazioni Matematiche (1638)</div><div class="bib-meta"><span class="tag tag-physics">Physics</span></div><div class="bib-note">Inclined plane kinematics — slope acceleration and break accumulation (Eq. 6).</div></div></div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#8A8278"></div><div><div class="bib-title">Heinrich Hertz — Über die Berührung fester elastischer Körper (1882)</div><div class="bib-meta"><span class="tag tag-physics">Physics</span></div><div class="bib-note">Contact mechanics and COR framework (Eq. 14).</div></div></div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#8A8278"></div><div><div class="bib-title">W.J. Stronge — Impact Mechanics (2000)</div><div class="bib-meta"><span class="tag tag-physics">Physics</span> <span class="tag tag-book">Book</span> Cambridge University Press · ISBN 0-521-63286-2</div><div class="bib-note">Oblique-impact framework for the 85/15 direction split (Eq. 2) and the half-sine contact force model (Eq. 18).</div></div></div>
+</div>
+
+<div class="bib-section">
+  <div class="bib-sec-label">Golf Science — Peer-Reviewed</div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#3B6D11"></div><div><div class="bib-title">A.R. Penner — "The physics of putting"</div><div class="bib-meta"><span class="tag tag-paper">Paper</span> Canadian Journal of Physics, Vol. 80, pp. 83–96 (2002)</div><div class="bib-note">Most rigorous peer-reviewed treatment of green physics. Informs Ch. VI–VIII: slope vectors, Stimp modeling, hole capture speed, and break tables.</div></div></div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#3B6D11"></div><div><div class="bib-title">A.R. Penner — "The physics of golf"</div><div class="bib-meta"><span class="tag tag-paper">Paper</span> Reports on Progress in Physics, Vol. 66, No. 2 (2003)</div><div class="bib-note">Comprehensive golf impact mechanics overview. Validates COR and energy partition model (Ch. XIV, Eq. 17).</div></div></div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#3B6D11"></div><div><div class="bib-title">Theodore P. Jorgensen — The Physics of Golf (1994)</div><div class="bib-meta"><span class="tag tag-book">Book</span> AIP Press / Springer · ISBN 0-387-98691-X</div><div class="bib-note">Lagrangian pendulum equations. Basis for Ch. I and the sinusoidal stroke model in Ch. XIII (Eq. 10).</div></div></div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#3B6D11"></div><div><div class="bib-title">Cochran &amp; Stobbs — The Search for the Perfect Swing (1968)</div><div class="bib-meta"><span class="tag tag-book">Book</span> Heinemann, London</div><div class="bib-note">Original systematic golf science study. Establishes face-angle dominance (Ch. II) and gear-effect physics (Eq. 16, 21).</div></div></div>
+</div>
+
+<div class="bib-section">
+  <div class="bib-sec-label">Coaching and Practitioner Literature</div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#993C1D"></div><div><div class="bib-title">Dave Pelz — Dave Pelz's Putting Bible (2000)</div><div class="bib-meta"><span class="tag tag-book">Book</span> <span class="tag tag-coach">Coach</span> Doubleday · ISBN 0-385-50024-7</div><div class="bib-note">Basis for the tolerance matrix (Table 1), gate drill design (Ch. IV), and make-percentage benchmarks (Ch. IX).</div></div></div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#993C1D"></div><div><div class="bib-title">Mark Broadie — Every Shot Counts (2014)</div><div class="bib-meta"><span class="tag tag-book">Book</span> <span class="tag tag-data">Data</span> Gotham Books · ISBN 978-1-592-40840-4</div><div class="bib-note">Inventor of the Strokes Gained methodology (Columbia Business School). Ch. IX is built entirely on Broadie's framework.</div></div></div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#993C1D"></div><div><div class="bib-title">John Novosel — Tour Tempo (2004)</div><div class="bib-meta"><span class="tag tag-book">Book</span> <span class="tag tag-coach">Coach</span> Doubleday · ISBN 0-385-51023-4</div><div class="bib-note">Frame-by-frame tour tempo analysis. The 62 BPM / 1:1 cadence in Ch. XIII is the putting application of Novosel's framework.</div></div></div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#993C1D"></div><div><div class="bib-title">Geoff Mangum — PuttingZone.com</div><div class="bib-meta"><span class="tag tag-coach">Coach</span></div><div class="bib-note">Most extensive independent putting physics writing available. Informs Ch. VI break geometry and Ch. IX speed control analysis.</div></div></div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#993C1D"></div><div><div class="bib-title">Dave Stockton — Putt to Win (1996) / Unconscious Putting (2011)</div><div class="bib-meta"><span class="tag tag-book">Book</span> <span class="tag tag-coach">Coach</span> Simon &amp; Schuster; Gotham Books</div><div class="bib-note">Two-time PGA Championship winner; coach to Mickelson, McIlroy. "Die the ball at the hole" — validated by capture speed analysis (Ch. VIII, Eq. 8).</div></div></div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#993C1D"></div><div><div class="bib-title">Bob Rotella — Putting Out of Your Mind (2001)</div><div class="bib-meta"><span class="tag tag-book">Book</span> <span class="tag tag-coach">Coach</span> Simon &amp; Schuster · ISBN 0-743-20090-4</div><div class="bib-note">Leading sports psychology treatment of putting performance — the practitioner complement to this mechanical model.</div></div></div>
+</div>
+
+<div class="bib-section">
+  <div class="bib-sec-label">Launch Technology and Data</div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#534AB7"></div><div><div class="bib-title">SAM PuttLab — Science &amp; Motion Sports</div><div class="bib-meta"><span class="tag tag-tech">Technology</span></div><div class="bib-note">The 85/15 coefficient (Eq. 2) and ±0.25° tour face angle variation are SAM PuttLab benchmark figures.</div></div></div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#534AB7"></div><div><div class="bib-title">TrackMan Golf</div><div class="bib-meta"><span class="tag tag-tech">Technology</span></div><div class="bib-note">Cross-validates smash factor (Eq. 16) and ball speed–distance relationships (Ch. XIII, Table 5).</div></div></div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#534AB7"></div><div><div class="bib-title">Capto Putting System</div><div class="bib-meta"><span class="tag tag-tech">Technology</span></div><div class="bib-note">Empirical validation of 62 BPM cadence and deceleration-at-impact findings (Ch. XIII).</div></div></div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#1D9E75"></div><div><div class="bib-title">DataGolf — 2025 PGA Tour Season (421 players)</div><div class="bib-meta"><span class="tag tag-data">Data</span> datagolf.com</div><div class="bib-note">Source for all Strokes Gained Putting statistics and tour benchmarks (Ch. IX).</div></div></div>
+  <div class="bib-entry"><div class="bib-bar" style="background:#1D9E75"></div><div><div class="bib-title">PGA Tour ShotLink</div><div class="bib-meta"><span class="tag tag-data">Data</span></div><div class="bib-note">Laser-based shot tracking since 2003. Underlying raw data source for all SG statistics cited in this guide.</div></div></div>
+</div>
+</div>
+
+<footer class="article-footer">
+  Golf Physics of Putting · Technical Field Guide · Vol. II<br>
+  14 Chapters · 21 Equations · Pendulum Mechanics · Face Angle Tolerance · Gate Drill · Impact &amp; Skid<br>
+  Green Reading Vectors · Stimp &amp; Break · Capture Speed · Putting Tempo · Collision Mechanics · Strokes Gained<br><br>
+  Foundational physics: Newton (1687) · Euler (1736) · Coulomb (1781) · Hertz (1882) · Galileo (1638)<br>
+  Golf science: Penner (2002, 2003) · Jorgensen (1994) · Cochran &amp; Stobbs (1968) · Stronge (2000)<br>
+  Coaching: Pelz (2000) · Broadie (2014) · Novosel (2004) · Stockton (2011) · Mangum · Rotella (2001)<br>
+  Technology: SAM PuttLab · TrackMan · Capto · DataGolf 2025 · PGA Tour ShotLink
+</footer>
+
+</article>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script>
+function eq(id, latex) {
+  const el = document.querySelector('#' + id + ' .katex-display');
+  if (el) katex.render(latex, el, { displayMode: true, throwOnError: false });
+}
+
+eq('eq1',  String.raw`\frac{d\theta}{ds} = \frac{1}{R}`);
+eq('eq2',  String.raw`\theta_{\text{launch}} = 0.85\;\theta_{\text{face}} + 0.15\;\theta_{\text{path}}`);
+eq('eq3',  String.raw`\delta = D\,\tan\theta`);
+eq('eq4',  String.raw`\theta_{\max} = \arctan\!\left(\frac{W_g - D_b}{2\,L_g}\right)`);
+eq('eq5',  String.raw`L_{\text{skid}} = \frac{v_0^{\,2}}{2\,\mu_t\,g}`);
+eq('eq5b', String.raw`v = r\,\omega \qquad (\text{pure roll — no sliding})`);
+eq('eq6a', String.raw`a_{\perp} = g\sin\theta_s\sin\phi`);
+eq('eq6b', String.raw`B \approx \tfrac{1}{2}\,g\sin\theta_s\sin\phi\cdot t^2`);
+eq('eq7',  String.raw`a_f = \mu_r\,g`);
+eq('eq8',  String.raw`v_c = \sqrt{2\,g\,h_{\ell}}`);
+eq('eq9',  String.raw`T_{\text{half}} = \frac{30}{\text{BPM}} = \frac{30}{62} = 0.484\ \text{s}`);
+eq('eq10', String.raw`s(t)=A\sin\!\left(\tfrac{2\pi t}{T}\right)\qquad\Longrightarrow\qquad a(t)=-A\!\left(\tfrac{2\pi}{T}\right)^{\!2}\sin\!\left(\tfrac{2\pi t}{T}\right)`);
+eq('eq11', String.raw`v_{\text{peak}} = A\cdot\frac{2\pi}{T_{\text{beat}}}`);
+eq('eq12', String.raw`T_n = 2\pi\sqrt{\frac{R}{g}}`);
+eq('eq13', String.raw`M\,v_p \;=\; M\,v_p' + m\,v_b'`);
+eq('eq14', String.raw`e = \frac{v_b' - v_p'}{v_p} \qquad\Longrightarrow\qquad v_b' - v_p' = e\,v_p`);
+eq('eq15', String.raw`v_b' = \frac{M(1+e)}{M+m}\,v_p \qquad\qquad v_p' = \frac{M-e\,m}{M+m}\,v_p`);
+eq('eq16', String.raw`\mathrm{SF} = \frac{v_b'}{v_p} = \frac{M(1+e)}{M+m}`);
+eq('eq17', String.raw`\eta_{\text{ball}} = \frac{m\,M\,(1+e)^2}{(M+m)^2}\times 100\%`);
+eq('eq18', String.raw`F(t) = F_{\max}\sin\!\left(\frac{\pi\,t}{\Delta t}\right),\quad 0\le t\le\Delta t`);
+eq('eq19', String.raw`F_{\max} = \frac{\pi\,m\,v_b'}{2\,\Delta t}`);
+eq('eq20', String.raw`a_p(t) = -\frac{F_{\max}}{M}\sin\!\left(\frac{\pi t}{\Delta t}\right) \qquad\Longrightarrow\qquad \Delta v_p = -0.218\;v_p`);
+eq('eq21', String.raw`\omega = \frac{m\,v_b'\,d}{J}`);
+</script>
+</body>
+</html>
